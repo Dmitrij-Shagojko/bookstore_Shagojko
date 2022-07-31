@@ -4,6 +4,8 @@ public interface BookDAO {
     //CRUD
     //read
     List<Book> getAll();
+
+    Book getBookById(Long id);
     Book getBookByIsbn(String isbn);
     //create
     Book create(Book book);

@@ -40,12 +40,12 @@ public class Book {
         this.author = author;
     }
 
-    public String getPublicher() {
+    public String getPublisher() {
         return publisher;
     }
 
-    public void setPublicher(String publicher) {
-        this.publisher = publicher;
+    public void setPublisher(String publisher) {
+        this.publisher = publisher;
     }
 
     public String getPublishmentDate() {
