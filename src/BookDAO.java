@@ -14,4 +14,5 @@ public interface BookDAO {
     //delete
     boolean delete(Long id);
     List<Book> getBooksByAuthor(String author);
+    int countAllBooks();
 }
