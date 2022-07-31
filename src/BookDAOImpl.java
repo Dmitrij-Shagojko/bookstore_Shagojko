@@ -161,4 +161,26 @@ public class BookDAOImpl implements BookDAO {
         }
         return false;
     }
+
+    @Override
+    public List<Book> getBooksByAuthor(String author) {
+        List<Book> books = new ArrayList<>();
+        try {
+            Connection connection = dataSource.getConnection();
+            PreparedStatement statement = connection.prepareStatement("SELECT id, name, author, publishment_date FROM books WHERE author = ?");
+            statement.setString(1, author);
+            ResultSet resultSet = statement.executeQuery();
+            while (resultSet.next()) {
+                Book book = new Book();
+                book.setId(resultSet.getLong("id"));
+                book.setName(resultSet.getString("name"));
+                book.setAuthor(resultSet.getString("author"));
+                book.setPublishmentDate(resultSet.getString("publishment_date"));
+                books.add(book);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return books;
+    }
 }
