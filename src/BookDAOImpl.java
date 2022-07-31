@@ -2,7 +2,7 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class BookDAOImpl implements BookDAO{
+public class BookDAOImpl implements BookDAO {
     public static final String GET_ALL = "SELECT id, name, author, publishment_date FROM books WHERE delete_book IS NULL";
     public static final String GET_BOOK_BY_ISBN10 = "SELECT id, name, author, publishment_date FROM books WHERE \"ISBN-10\" = ?";
     public static final String GET_BOOK_BY_ISBN13 = "SELECT id, name, author, publishment_date FROM books WHERE \"ISBN-13\" = ?";
@@ -12,7 +12,8 @@ public class BookDAOImpl implements BookDAO{
     public static final String GET_BOOK_BY_ID = "SELECT id, name, author, publicher, publishment_date, \"language\", paperback, \"ISBN-10\"," +
             "\"ISBN-13\", lexile_measure, weight, dimensions, bestSellersRank FROM books WHERE id = ?";
     public static final String UPDATE_BOOK = "UPDATE public.books SET name=?, author=?, publicher=?, publishment_date=?, language=?, paperback=?, " +
-        "\"ISBN-10\"=?, \"ISBN-13\"=?, lexile_measure=?, weight=?, dimensions=?, bestsellersrank=? WHERE id =?";
+            "\"ISBN-10\"=?, \"ISBN-13\"=?, lexile_measure=?, weight=?, dimensions=?, bestsellersrank=? WHERE id =?";
+    public static final String DELETE_BOOK = "DELETE FROM public.books WHERE id = ?";
 
     private final DataSource dataSource;
 
@@ -27,17 +28,18 @@ public class BookDAOImpl implements BookDAO{
             Connection connection = dataSource.getConnection();
             Statement statement = connection.createStatement();
             ResultSet resultSet = statement.executeQuery(GET_ALL);
-            while (resultSet.next()){
-            Book book = new Book();
-            book.setId(resultSet.getLong("id"));
-            book.setName(resultSet.getString("name"));
-            book.setAuthor(resultSet.getString("author"));
-            book.setPublishmentDate(resultSet.getString("publishment_date"));
-            books.add(book);
+            while (resultSet.next()) {
+                Book book = new Book();
+                book.setId(resultSet.getLong("id"));
+                book.setName(resultSet.getString("name"));
+                book.setAuthor(resultSet.getString("author"));
+                book.setPublishmentDate(resultSet.getString("publishment_date"));
+                books.add(book);
             }
-        } catch (SQLException e){
+        } catch (SQLException e) {
             e.printStackTrace();
-        } return books;
+        }
+        return books;
     }
 
     @Override
@@ -47,7 +49,7 @@ public class BookDAOImpl implements BookDAO{
             PreparedStatement statement = connection.prepareStatement(GET_BOOK_BY_ID);
             statement.setLong(1, id);
             ResultSet resultSet = statement.executeQuery();
-            if (resultSet.next()){
+            if (resultSet.next()) {
                 Book book = new Book();
                 book.setId(resultSet.getLong("id"));
                 book.setName(resultSet.getString("name"));
@@ -64,7 +66,7 @@ public class BookDAOImpl implements BookDAO{
                 book.setBestSellersRank(resultSet.getString("bestSellersRank"));
                 return book;
             }
-        } catch (SQLException e){
+        } catch (SQLException e) {
             e.printStackTrace();
         }
         return null;
@@ -75,14 +77,14 @@ public class BookDAOImpl implements BookDAO{
         try {
             Connection connection = dataSource.getConnection();
             PreparedStatement statement = null;
-            if (isbn.length() == 10){
+            if (isbn.length() == 10) {
                 statement = connection.prepareStatement(GET_BOOK_BY_ISBN10);
             } else {
                 statement = connection.prepareStatement(GET_BOOK_BY_ISBN13);
             }
             statement.setString(1, isbn);
             ResultSet resultSet = statement.executeQuery();
-            if (resultSet.next()){
+            if (resultSet.next()) {
                 Book book = new Book();
                 book.setId(resultSet.getLong("id"));
                 book.setName(resultSet.getString("name"));
@@ -90,7 +92,7 @@ public class BookDAOImpl implements BookDAO{
                 book.setPublishmentDate(resultSet.getString("publishment_date"));
                 return book;
             }
-        } catch (SQLException e){
+        } catch (SQLException e) {
             e.printStackTrace();
         }
         return null;
@@ -114,7 +116,7 @@ public class BookDAOImpl implements BookDAO{
             statement.setString(11, book.getBestSellersRank());
             statement.executeUpdate();
             return getBookByIsbn(book.getISBN10());
-        } catch (SQLException e){
+        } catch (SQLException e) {
             e.printStackTrace();
         }
         return null;
@@ -140,7 +142,7 @@ public class BookDAOImpl implements BookDAO{
             statement.setString(12, book.getBestSellersRank());
             statement.executeUpdate();
             return getBookById(book.getId());
-        } catch (SQLException e){
+        } catch (SQLException e) {
             e.printStackTrace();
         }
         return null;
@@ -148,6 +150,15 @@ public class BookDAOImpl implements BookDAO{
 
     @Override
     public boolean delete(Long id) {
+        try {
+            Connection connection = dataSource.getConnection();
+            PreparedStatement statement = connection.prepareStatement(DELETE_BOOK);
+            statement.setLong(1, id);
+            statement.executeUpdate();
+            return true;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
         return false;
     }
 }
