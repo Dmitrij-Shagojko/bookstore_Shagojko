@@ -1,3 +1,5 @@
+import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.Objects;
 
 public class Book {
@@ -5,8 +7,8 @@ public class Book {
     private String name;
     private String author;
     private String publisher;
-    private String publishmentDate;
-    private String language;
+    private LocalDate publishmentDate;
+    private BigDecimal price;
     private int paperback;
     private String ISBN10;
     private String ISBN13;
@@ -14,7 +16,6 @@ public class Book {
     private int weight;
     private String dimensions;
     private String bestSellersRank;
-    private Character flagOfDelete;
 
     public Long getId() {
         return id;
@@ -48,20 +49,20 @@ public class Book {
         this.publisher = publisher;
     }
 
-    public String getPublishmentDate() {
+    public LocalDate getPublishmentDate() {
         return publishmentDate;
     }
 
-    public void setPublishmentDate(String publishmentDate) {
+    public void setPublishmentDate(LocalDate publishmentDate) {
         this.publishmentDate = publishmentDate;
     }
 
-    public String getLanguage() {
-        return language;
+    public BigDecimal getPrice() {
+        return price;
     }
 
-    public void setLanguage(String language) {
-        this.language = language;
+    public void setPrice(BigDecimal price) {
+        this.price = price;
     }
 
     public int getPaperback() {
@@ -120,14 +121,6 @@ public class Book {
         this.bestSellersRank = bestSellersRank;
     }
 
-    public Character getFlagOfDelete() {
-        return flagOfDelete;
-    }
-
-    public void setFlagOfDelete(Character flagOfDelete) {
-        this.flagOfDelete = flagOfDelete;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -136,16 +129,15 @@ public class Book {
         return paperback == book.paperback && weight == book.weight && Objects.equals(id, book.id) &&
                 Objects.equals(name, book.name) && Objects.equals(author, book.author) &&
                 Objects.equals(publisher, book.publisher) && Objects.equals(publishmentDate, book.publishmentDate) &&
-                Objects.equals(language, book.language) && Objects.equals(ISBN10, book.ISBN10) &&
+                Objects.equals(price, book.price) && Objects.equals(ISBN10, book.ISBN10) &&
                 Objects.equals(ISBN13, book.ISBN13) && Objects.equals(lexileMeasure, book.lexileMeasure) &&
-                Objects.equals(dimensions, book.dimensions) && Objects.equals(bestSellersRank, book.bestSellersRank) &&
-                Objects.equals(flagOfDelete, book.flagOfDelete);
+                Objects.equals(dimensions, book.dimensions) && Objects.equals(bestSellersRank, book.bestSellersRank);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, author, publisher, publishmentDate, language, paperback, ISBN10, ISBN13,
-                lexileMeasure, weight, dimensions, bestSellersRank, flagOfDelete);
+        return Objects.hash(id, name, author, publisher, publishmentDate, price, paperback, ISBN10, ISBN13,
+                lexileMeasure, weight, dimensions, bestSellersRank);
     }
 
     @Override
@@ -154,6 +146,6 @@ public class Book {
                 "id = " + id + '.' +
                 " name='" + name + ';' +
                 " author='" + author + ';' +
-                " publishmentDate='" + publishmentDate + '.';
+                " publishmentDate='" + publishmentDate + ';';
     }
 }
