@@ -2,11 +2,12 @@
 
 ## **module1_DAO**
 
-This project has four classes:
+This project has six classes:
 * DataSourse;
 * Book;
 * BookDAOImpl;
-* Main.
+* Main;
+* BookController.
 
 Also the project has one interface:
 * BookDAO.
@@ -27,8 +28,22 @@ Class **BookDAOImpl** - this class has implemented methods of the BookDAO interf
 * ***getBooksByAuthor*** - search a book by its author;
 * ***countAllBooks*** - output quantity lines in the DB.
 
-Class **Main** - this class serves for user interaction with the application.
+Class **BookController** - this class serves for user interaction with the application.
 
+Class **BookContoller** has the following methods:
+
++ ***getAll***;
++ ***getById***;
++ ***deleteById***;
++ ***createBook***;
++ ***deleteBook***;
+
+  :white_check_mark: (testing)
+
+  :negative_squared_cross_mark: (testing)
+
+
+Class **Main** - is used to run a console application.
 
 
 __Developed by Dmitrij Shagojko__
