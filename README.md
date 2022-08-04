@@ -28,20 +28,22 @@ Class **BookDAOImpl** - this class has implemented methods of the BookDAO interf
 * ***getBooksByAuthor*** - search a book by its author;
 * ***countAllBooks*** - output quantity lines in the DB.
 
-Class **BookController** - this class serves for user interaction with the application.
+Class **BookController** - this class controller for user interaction with the application.
 
 Class **BookContoller** has the following methods:
 
-+ ***getAll***;
-+ ***getById***;
-+ ***deleteById***;
-+ ***createBook***;
-+ ***deleteBook***;
+:white_check_mark: ***run***;
+:white_check_mark: ***countAllBooks***;
+:white_check_mark: ***getAll***;
+:white_check_mark: ***getBookById***;
+:white_check_mark: ***getBookByAuthor***;
+:white_check_mark: ***getBookByISBN***;
+:white_check_mark: ***deleteById***;
+:white_check_mark: ***createBook***;
+:white_check_mark: ***updateBook***;
 
-  :white_check_mark: (testing)
-
-  :negative_squared_cross_mark: (testing)
-
+Class **BookService** - this class service for connection UI with DAO.
+This class has the same methods as the class BookController.
 
 Class **Main** - is used to run a console application.
 

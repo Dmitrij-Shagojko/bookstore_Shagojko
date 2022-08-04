@@ -12,30 +12,39 @@ public class BookController {
             ---> update
             ---> create
             ---> delete {id}
+            ---> get book by author
+            ---> get book by isbn
+            ---> count all books
             ---> exit <---
             Enter the command:""";
-    private final BookDAO bookDAO;
+    private final BookService bookService;
 
-    public BookController(BookDAO bookDAO) {
-        this.bookDAO = bookDAO;
+    public BookController() {
+        this.bookService = new BookService();
     }
 
     public void run() {
-        Scanner scanner = new Scanner(System.in);
         System.out.println("Hello user!");
         System.out.println(AVAILABLE_COMMANDS);
+        Scanner scanner = new Scanner(System.in);
         String command = scanner.nextLine();
         while (!Pattern.matches("exit", command.trim().toLowerCase())) {
             if (Pattern.matches("all", command.trim().toLowerCase())) {
                 getAll();
             } else if (Pattern.matches("get \\d+", command.trim().toLowerCase())) {
-                getById(command);
+                getBookById(command);
             } else if (Pattern.matches("delete \\d+", command.trim().toLowerCase())) {
                 deleteById(command);
             } else if (Pattern.matches("create", command.trim().toLowerCase())) {
                 createBook(scanner);
             } else if (Pattern.matches("update", command.trim().toLowerCase())) {
                 updateBook(scanner);
+            } else if (Pattern.matches("get book by author", command.trim().toLowerCase())) {
+                getBookByAuthor(scanner);
+            } else if (Pattern.matches("count all books", command.trim().toLowerCase())) {
+                countAllBooks();
+            } else if (Pattern.matches("get book by isbn", command.trim().toLowerCase())) {
+                getBookByIsbn(scanner);
             }
             System.out.println("If you want to continue, then enter a new command.\n" +
                     "To exit, enter the command \"exit\".");
@@ -45,10 +54,25 @@ public class BookController {
         System.out.println("Good bye!");
     }
 
+    private void getBookByIsbn(Scanner scanner) {
+        System.out.println("Enter ISBN: ISBN-10 or ISBN-13 (input format: 000-0000000000):");
+        System.out.println(bookService.getBookByIsbn(scanner.nextLine()));
+    }
+
+    private void countAllBooks() {
+        System.out.println(bookService.countAllBooks());
+    }
+
+    private void getBookByAuthor(Scanner scanner) {
+        System.out.println("Enter author:");
+        List<Book> books = bookService.getBookByAuthor(scanner.nextLine());
+        books.forEach(System.out::println);
+    }
+
     private void updateBook(Scanner scanner) {
         System.out.println("Enter the id of the book you want to update");
         Long id = Long.parseLong(scanner.nextLine());
-        Book book = bookDAO.getBookById(id);
+        Book book = bookService.getBookById(id);
         System.out.println("""
                 Select number of the item you want to update:
                 1 - book name;
@@ -125,7 +149,7 @@ public class BookController {
                     "otherwise enter 0 ");
             number = Integer.parseInt(scanner.nextLine());
         }
-        bookDAO.update(book);
+        bookService.update(book);
         System.out.println("Changes applied");
     }
 
@@ -160,21 +184,21 @@ public class BookController {
         System.out.println("Enter bestsellers rank:");
         book.setBestSellersRank(scanner.nextLine());
         System.out.println("A new book has been created:");
-        System.out.println(bookDAO.create(book));
+        System.out.println(bookService.create(book));
     }
 
     private void deleteById(String command) {
         String[] mas = command.trim().split(" ");
         Long id = Long.parseLong(mas[1]);
-        if (bookDAO.delete(id)) {
+        if (bookService.delete(id)) {
             System.out.printf("Book with id = %d - deleted.", id);
         }
     }
 
-    private void getById(String command) {
+    private void getBookById(String command) {
         String[] mas = command.trim().split(" ");
         Long id = Long.parseLong(mas[1]);
-        Book book = bookDAO.getBookById(id);
+        Book book = bookService.getBookById(id);
         System.out.println("Book{" +
                 "id=" + book.getId() +
                 ", name='" + book.getName() + '\'' +
@@ -193,7 +217,7 @@ public class BookController {
     }
 
     private void getAll() {
-        List<Book> books = bookDAO.getAll();
+        List<Book> books = bookService.getAll();
         books.forEach(System.out::println);
     }
 }

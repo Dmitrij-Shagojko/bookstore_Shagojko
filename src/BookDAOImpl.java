@@ -17,12 +17,13 @@ public class BookDAOImpl implements BookDAO {
     public static final String UPDATE_BOOK = "UPDATE public.books SET name=?, author=?, publicher=?, publishment_date=?, price=?, paperback=?, " +
             "\"ISBN-10\"=?, \"ISBN-13\"=?, lexile_measure=?, weight=?, dimensions=?, bestsellersrank=? WHERE id =?";
     public static final String DELETE_BOOK = "DELETE FROM public.books WHERE id = ?";
-    public static final String GET_BOOK_BY_AUTHOR = "SELECT id, name, author, publishment_date, price FROM books WHERE author = ?";
+    public static final String GET_BOOK_BY_AUTHOR = "SELECT id, name, author, publicher, publishment_date, price, paperback, \"ISBN-10\"," +
+            "\"ISBN-13\", lexile_measure, weight, dimensions, bestSellersRank FROM books WHERE author = ?";
 
     private final DataSource dataSource;
 
-    public BookDAOImpl(DataSource dataSource) {
-        this.dataSource = dataSource;
+    public BookDAOImpl() {
+        this.dataSource = new DataSource();
     }
 
     @Override
