@@ -22,16 +22,15 @@ public class BookDAOImpl implements BookDAO {
 
     private final DataSource dataSource;
 
-    public BookDAOImpl() {
-        this.dataSource = new DataSource();
+    public BookDAOImpl(DataSource dataSource) {
+        this.dataSource = dataSource;
     }
 
     @Override
     public List<Book> getAll() {
         List<Book> books = new ArrayList<>();
-        try {
-            Connection connection = dataSource.getConnection();
-            Statement statement = connection.createStatement();
+        Connection connection = dataSource.getConnection();
+        try (Statement statement = connection.createStatement()) {
             ResultSet resultSet = statement.executeQuery(GET_ALL);
             while (resultSet.next()) {
                 Book book = setBook(resultSet);
@@ -45,9 +44,8 @@ public class BookDAOImpl implements BookDAO {
 
     @Override
     public Book getBookById(Long id) {
-        try {
-            Connection connection = dataSource.getConnection();
-            PreparedStatement statement = connection.prepareStatement(GET_BOOK_BY_ID);
+        Connection connection = dataSource.getConnection();
+        try (PreparedStatement statement = connection.prepareStatement(GET_BOOK_BY_ID)) {
             statement.setLong(1, id);
             ResultSet resultSet = statement.executeQuery();
             if (resultSet.next()) {
@@ -79,9 +77,9 @@ public class BookDAOImpl implements BookDAO {
 
     @Override
     public Book getBookByIsbn(String isbn) {
+        Connection connection = dataSource.getConnection();
+        PreparedStatement statement = null;
         try {
-            Connection connection = dataSource.getConnection();
-            PreparedStatement statement = null;
             if (isbn.length() == 10) {
                 statement = connection.prepareStatement(GET_BOOK_BY_ISBN10);
             } else {
@@ -126,9 +124,8 @@ public class BookDAOImpl implements BookDAO {
 
     @Override
     public Book update(Book book) {
-        try {
-            Connection connection = dataSource.getConnection();
-            PreparedStatement statement = connection.prepareStatement(UPDATE_BOOK);
+        Connection connection = dataSource.getConnection();
+        try (PreparedStatement statement = connection.prepareStatement(UPDATE_BOOK)) {
             statement.setLong(13, book.getId());
             statement.setString(1, book.getName());
             statement.setString(2, book.getAuthor());
@@ -153,9 +150,8 @@ public class BookDAOImpl implements BookDAO {
 
     @Override
     public boolean delete(Long id) {
-        try {
-            Connection connection = dataSource.getConnection();
-            PreparedStatement statement = connection.prepareStatement(DELETE_BOOK);
+        Connection connection = dataSource.getConnection();
+        try (PreparedStatement statement = connection.prepareStatement(DELETE_BOOK)) {
             statement.setLong(1, id);
             return statement.executeUpdate() == 1;
         } catch (SQLException e) {
@@ -166,28 +162,27 @@ public class BookDAOImpl implements BookDAO {
 
     @Override
     public List<Book> getBooksByAuthor(String author) {
-        List<Book> books = new ArrayList<>();
-        try {
-            Connection connection = dataSource.getConnection();
-            PreparedStatement statement = connection.prepareStatement(GET_BOOK_BY_AUTHOR);
+        Connection connection = dataSource.getConnection();
+        try (PreparedStatement statement = connection.prepareStatement(GET_BOOK_BY_AUTHOR)) {
+            List<Book> books = new ArrayList<>();
             statement.setString(1, author);
             ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()) {
                 Book book = setBook(resultSet);
                 books.add(book);
             }
+            return books;
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return books;
+        return null;
     }
 
     @Override
     public int countAllBooks() {
+        Connection connection = dataSource.getConnection();
         int count = 0;
-        try {
-            Connection connection = dataSource.getConnection();
-            Statement statement = connection.createStatement();
+        try (Statement statement = connection.createStatement()) {
             ResultSet resultSet = statement.executeQuery(GET_ALL);
             while (resultSet.next()) {
                 count = resultSet.getRow();

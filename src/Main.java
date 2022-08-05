@@ -2,9 +2,11 @@ import java.sql.SQLException;
 
 public class Main {
     public static void main(String[] args) throws SQLException {
-        BookController bookController = new BookController();
+        DataSource dataSourceBook = new DataSource();
+        BookDAO bookDAO = new BookDAOImpl(dataSourceBook);
+        BookService bookService = new BookService(bookDAO);
+        BookController bookController = new BookController(bookService);
         bookController.run();
-        DataSource dataSource = new DataSource();
-        dataSource.close();
+        dataSourceBook.close();
     }
 }

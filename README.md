@@ -36,21 +36,21 @@ Class **BookController** - this class controller for user interaction with the a
 
 Class **BookContoller** has the following methods:
 
-    :white_check_mark: ***run***;
-    :white_check_mark: ***countAllBooks***;
-    :white_check_mark: ***getAll***;
-    :white_check_mark: ***getBookById***;
-    :white_check_mark: ***getBookByAuthor***;
-    :white_check_mark: ***getBookByISBN***;
-    :white_check_mark: ***deleteById***;
-    :white_check_mark: ***createBook***;
-    :white_check_mark: ***updateBook***;
+:white_check_mark: ***run***;  
+:white_check_mark: ***countAllBooks***;     
+:white_check_mark: ***getAll***;    
+:white_check_mark: ***getBookById***;   
+:white_check_mark: ***getBookByAuthor***;   
+:white_check_mark: ***getBookByISBN***;     
+:white_check_mark: ***deleteById***;    
+:white_check_mark: ***createBook***;    
+:white_check_mark: ***updateBook***;    
 
 Class **BookService** - this class service for connection UI with DAO.
 This class has the same methods as the class BookController and has its own implemented method - getCostBookByAuthor.
 
 Class **Main** - is used to run a console application.
 
-==========================================================================
+=======================================================================
 
 __Developed by Dmitrij Shagojko__

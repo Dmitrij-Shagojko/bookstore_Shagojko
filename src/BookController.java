@@ -20,8 +20,8 @@ public class BookController {
             Enter the command:""";
     private final BookService bookService;
 
-    public BookController() {
-        this.bookService = new BookService();
+    public BookController(BookService bookService) {
+        this.bookService = bookService;
     }
 
     public void run() {
@@ -46,7 +46,7 @@ public class BookController {
                 countAllBooks();
             } else if (Pattern.matches("get book by isbn", command.trim().toLowerCase())) {
                 getBookByIsbn(scanner);
-            } else if (Pattern.matches("get cost books by author", command.trim().toLowerCase())){
+            } else if (Pattern.matches("get cost books by author", command.trim().toLowerCase())) {
                 getCostBookByAuthor(scanner);
             }
             System.out.println("\nIf you want to continue, then enter a new command.\n" +
@@ -199,9 +199,7 @@ public class BookController {
     private void deleteById(String command) {
         String[] mas = command.trim().split(" ");
         Long id = Long.parseLong(mas[1]);
-        if (bookService.delete(id)) {
-            System.out.printf("Book with id = %d - deleted.", id);
-        }
+        bookService.delete(id);
     }
 
     private void getBookById(String command) {
