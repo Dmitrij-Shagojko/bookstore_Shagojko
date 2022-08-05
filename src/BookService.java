@@ -1,4 +1,6 @@
+import java.math.BigDecimal;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class BookService {
     private final BookDAO bookDAO;
@@ -37,5 +39,13 @@ public class BookService {
 
     public Book getBookByIsbn(String isbn) {
         return bookDAO.getBookByIsbn(isbn);
+    }
+    public BigDecimal getCostBookByAuthor(String author){
+        List<Book> books = bookDAO.getBooksByAuthor(author);
+        BigDecimal cost = new BigDecimal(0);
+        for (Book book : books) {
+            cost = cost.add(book.getPrice());
+        }
+        return cost;
     }
 }

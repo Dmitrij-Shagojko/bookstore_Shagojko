@@ -15,6 +15,7 @@ public class BookController {
             ---> get book by author
             ---> get book by isbn
             ---> count all books
+            ---> get cost books by author
             ---> exit <---
             Enter the command:""";
     private final BookService bookService;
@@ -45,13 +46,21 @@ public class BookController {
                 countAllBooks();
             } else if (Pattern.matches("get book by isbn", command.trim().toLowerCase())) {
                 getBookByIsbn(scanner);
+            } else if (Pattern.matches("get cost books by author", command.trim().toLowerCase())){
+                getCostBookByAuthor(scanner);
             }
-            System.out.println("If you want to continue, then enter a new command.\n" +
+            System.out.println("\nIf you want to continue, then enter a new command.\n" +
                     "To exit, enter the command \"exit\".");
             System.out.println(AVAILABLE_COMMANDS);
             command = scanner.nextLine();
         }
         System.out.println("Good bye!");
+    }
+
+    private void getCostBookByAuthor(Scanner scanner) {
+        System.out.println("Enter author:");
+        BigDecimal cost = bookService.getCostBookByAuthor(scanner.nextLine());
+        System.out.printf("Cost all book: " + cost);
     }
 
     private void getBookByIsbn(Scanner scanner) {
