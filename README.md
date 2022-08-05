@@ -45,6 +45,7 @@ Class **BookContoller** has the following methods:
 :white_check_mark: ***deleteById***;    
 :white_check_mark: ***createBook***;    
 :white_check_mark: ***updateBook***;    
+:white_check_mark: ***getCostBookByAuthor***.   
 
 Class **BookService** - this class service for connection UI with DAO.
 This class has the same methods as the class BookController and has its own implemented method - getCostBookByAuthor.
