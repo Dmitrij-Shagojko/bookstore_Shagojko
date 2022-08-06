@@ -1,5 +1,6 @@
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
 import java.util.regex.Pattern;
@@ -96,6 +97,7 @@ public class BookController {
                 10 - weight of books (in grams);
                 11 - dimension book (in mm);
                 12 - bestseller rank;
+                13 - language;
                 0 - exit from to update mode.""");
         System.out.println("Enter the number of the item you want to change:");
         int number = Integer.parseInt(scanner.nextLine());
@@ -153,6 +155,11 @@ public class BookController {
                     System.out.println("Enter bestsellers rank:");
                     book.setBestSellersRank(scanner.nextLine());
                 }
+                case 13 -> {
+                    System.out.println("Enter language book (choose from available):");
+                    System.out.println(Arrays.toString(Book.Language.values()));
+                    book.setLanguage(Book.Language.valueOf(scanner.nextLine().toUpperCase()));
+                }
             }
             System.out.println("if you want to update other data - select the item number, " +
                     "otherwise enter 0 ");
@@ -192,6 +199,9 @@ public class BookController {
         book.setDimensions(scanner.nextLine());
         System.out.println("Enter bestsellers rank:");
         book.setBestSellersRank(scanner.nextLine());
+        System.out.println("Enter language book (choose from available):");
+        System.out.println(Arrays.toString(Book.Language.values()));
+        book.setLanguage(Book.Language.valueOf(scanner.nextLine().toUpperCase()));
         System.out.println("A new book has been created:");
         System.out.println(bookService.create(book));
     }
@@ -220,6 +230,7 @@ public class BookController {
                 ", weight=" + book.getWeight() +
                 ", dimensions='" + book.getDimensions() + '\'' +
                 ", bestSellersRank='" + book.getBestSellersRank() + '\'' +
+                ", \n'language='" + book.getLanguage() + '\'' +
                 '}');
     }
 

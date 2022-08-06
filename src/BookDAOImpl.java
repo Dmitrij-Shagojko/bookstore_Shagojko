@@ -3,22 +3,57 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class BookDAOImpl implements BookDAO {
-    public static final String GET_ALL = "SELECT id, name, author, publicher, publishment_date, price, paperback, \"ISBN-10\"," +
-            "\"ISBN-13\", lexile_measure, weight, dimensions, bestSellersRank FROM books";
-    public static final String GET_BOOK_BY_ISBN10 = "SELECT id, name, author, publicher, publishment_date, price, paperback, \"ISBN-10\"," +
-            "\"ISBN-13\", lexile_measure, weight, dimensions, bestSellersRank FROM books WHERE \"ISBN-10\" = ?";
-    public static final String GET_BOOK_BY_ISBN13 = "SELECT id, name, author, publicher, publishment_date, price, paperback, \"ISBN-10\"," +
-            "\"ISBN-13\", lexile_measure, weight, dimensions, bestSellersRank FROM books WHERE \"ISBN-13\" = ?";
-    public static final String CREATE_BOOK = "INSERT INTO books(name, author, publicher, publishment_date, price, paperback, " +
-            "\"ISBN-10\", \"ISBN-13\", lexile_measure, weight, dimensions, bestsellersrank) " +
-            "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-    public static final String GET_BOOK_BY_ID = "SELECT id, name, author, publicher, publishment_date, price, paperback, \"ISBN-10\"," +
-            "\"ISBN-13\", lexile_measure, weight, dimensions, bestSellersRank FROM books WHERE id = ?";
-    public static final String UPDATE_BOOK = "UPDATE public.books SET name=?, author=?, publicher=?, publishment_date=?, price=?, paperback=?, " +
-            "\"ISBN-10\"=?, \"ISBN-13\"=?, lexile_measure=?, weight=?, dimensions=?, bestsellersrank=? WHERE id =?";
-    public static final String DELETE_BOOK = "DELETE FROM public.books WHERE id = ?";
-    public static final String GET_BOOK_BY_AUTHOR = "SELECT id, name, author, publicher, publishment_date, price, paperback, \"ISBN-10\"," +
-            "\"ISBN-13\", lexile_measure, weight, dimensions, bestSellersRank FROM books WHERE author = ?";
+    public static final String GET_ALL = """
+            SELECT b.id, b.name, b.author, b.publicher, b.publishment_date, b.price, b.paperback,
+            b.\"ISBN-10\", b.\"ISBN-13\", b.lexile_measure, b.weight, b.dimensions, b.bestSellersRank, 
+            l.name AS language
+            FROM books b
+            JOIN languages l
+            ON b.language_id = l.id
+            ORDER BY b.id""";
+    public static final String GET_BOOK_BY_ID = """
+            SELECT b.id, b.name, b.author, b.publicher, b.publishment_date, b.price, b.paperback,
+            b.\"ISBN-10\", b.\"ISBN-13\", b.lexile_measure, b.weight, b.dimensions, b.bestSellersRank, 
+            l.name AS language
+            FROM books b
+            JOIN languages l
+            ON b.language_id = l.id
+            WHERE b.id = ?""";
+    public static final String GET_BOOK_BY_ISBN10 = """
+            SELECT b.id, b.name, b.author, b.publicher, b.publishment_date, b.price, b.paperback,
+            b.\"ISBN-10\", b.\"ISBN-13\", b.lexile_measure, b.weight, b.dimensions, b.bestSellersRank, 
+            l.name AS language
+            FROM books b
+            JOIN languages l
+            ON b.language_id = l.id
+            WHERE b.\"ISBN-10\" = ?""";
+    public static final String GET_BOOK_BY_ISBN13 = """
+            SELECT b.id, b.name, b.author, b.publicher, b.publishment_date, b.price, b.paperback,
+            b.\"ISBN-10\", b.\"ISBN-13\", b.lexile_measure, b.weight, b.dimensions, b.bestSellersRank, 
+            l.name AS language
+            FROM books b
+            JOIN languages l
+            ON b.language_id = l.id
+            WHERE b.\"ISBN-13\" = ?""";
+    public static final String CREATE_BOOK = """
+            INSERT INTO books(name, author, publicher, publishment_date, price, paperback,
+            \"ISBN-10\", \"ISBN-13\", lexile_measure, weight, dimensions, bestsellersrank, language_id)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, (SELECT id FROM languages WHERE name = ?))""";
+    public static final String UPDATE_BOOK = """
+            UPDATE books SET name=?, author=?, publicher=?, publishment_date=?, price=?, paperback=?,
+            \"ISBN-10\"=?, \"ISBN-13\"=?, lexile_measure=?, weight=?, dimensions=?, bestsellersrank=?,
+            language_id = (SELECT id FROM languages WHERE name = ?) 
+            WHERE id =?""";
+    public static final String DELETE_BOOK = "DELETE FROM books WHERE id = ?";
+    public static final String GET_BOOK_BY_AUTHOR = """
+            SELECT b.id, b.name, b.author, b.publicher, b.publishment_date, b.price, b.paperback,
+            b.\"ISBN-10\", b.\"ISBN-13\", b.lexile_measure, b.weight, b.dimensions, b.bestSellersRank, 
+            l.name AS language
+            FROM books b
+            JOIN languages l
+            ON b.language_id = l.id
+            WHERE b.author = ?
+            ORDER BY b.id""";
 
     private final DataSource dataSource;
 
@@ -72,6 +107,7 @@ public class BookDAOImpl implements BookDAO {
         book.setWeight(resultSet.getInt("weight"));
         book.setDimensions(resultSet.getString("dimensions"));
         book.setBestSellersRank(resultSet.getString("bestSellersRank"));
+        book.setLanguage(Book.Language.valueOf(resultSet.getString("language")));
         return book;
     }
 
@@ -113,6 +149,7 @@ public class BookDAOImpl implements BookDAO {
             statement.setInt(10, book.getWeight());
             statement.setString(11, book.getDimensions());
             statement.setString(12, book.getBestSellersRank());
+            statement.setString(13, String.valueOf(book.getLanguage()));
             if (statement.executeUpdate() == 1) {
                 return getBookByIsbn(book.getISBN10());
             }
@@ -126,7 +163,7 @@ public class BookDAOImpl implements BookDAO {
     public Book update(Book book) {
         Connection connection = dataSource.getConnection();
         try (PreparedStatement statement = connection.prepareStatement(UPDATE_BOOK)) {
-            statement.setLong(13, book.getId());
+            statement.setLong(14, book.getId());
             statement.setString(1, book.getName());
             statement.setString(2, book.getAuthor());
             statement.setString(3, book.getPublisher());
@@ -139,6 +176,7 @@ public class BookDAOImpl implements BookDAO {
             statement.setInt(10, book.getWeight());
             statement.setString(11, book.getDimensions());
             statement.setString(12, book.getBestSellersRank());
+            statement.setString(13, String.valueOf(book.getLanguage()));
             if (statement.executeUpdate() == 1) {
                 return getBookById(book.getId());
             }

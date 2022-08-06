@@ -16,6 +16,11 @@ public class Book {
     private int weight;
     private String dimensions;
     private String bestSellersRank;
+    private Language language;
+
+    enum Language {
+        ENGLISH, SPANISH, RUSSIAN, FRENCH, GERMAN
+    }
 
     public Long getId() {
         return id;
@@ -121,6 +126,14 @@ public class Book {
         this.bestSellersRank = bestSellersRank;
     }
 
+    public Language getLanguage() {
+        return language;
+    }
+
+    public void setLanguage(Language language) {
+        this.language = language;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -131,13 +144,14 @@ public class Book {
                 Objects.equals(publisher, book.publisher) && Objects.equals(publishmentDate, book.publishmentDate) &&
                 Objects.equals(price, book.price) && Objects.equals(ISBN10, book.ISBN10) &&
                 Objects.equals(ISBN13, book.ISBN13) && Objects.equals(lexileMeasure, book.lexileMeasure) &&
-                Objects.equals(dimensions, book.dimensions) && Objects.equals(bestSellersRank, book.bestSellersRank);
+                Objects.equals(dimensions, book.dimensions) && Objects.equals(bestSellersRank, book.bestSellersRank) &&
+                language == book.language;
     }
 
     @Override
     public int hashCode() {
         return Objects.hash(id, name, author, publisher, publishmentDate, price, paperback, ISBN10, ISBN13,
-                lexileMeasure, weight, dimensions, bestSellersRank);
+                lexileMeasure, weight, dimensions, bestSellersRank, language);
     }
 
     @Override
@@ -146,6 +160,7 @@ public class Book {
                 "id = " + id + '.' +
                 " name='" + name + ';' +
                 " author='" + author + ';' +
-                " publishmentDate='" + publishmentDate + ';';
+                " publishmentDate='" + publishmentDate + ';' +
+                " language='" + language + ';';
     }
 }
