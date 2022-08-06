@@ -8,6 +8,10 @@ import java.sql.SQLException;
 import java.util.Properties;
 
 public class DataSource {
+
+    private static final int LOCAL_CONNECTION = 1;
+    private static final int REMOTE_CONNECTION = 2;
+    private static final int CONNECTION = 2;
     private Connection connection;
 
     private String getDataBookstore(String key) {
@@ -21,9 +25,18 @@ public class DataSource {
     }
 
     public Connection getConnection() {
-        String url = getDataBookstore("url");
-        String user = getDataBookstore("user");
-        String password = getDataBookstore("password");
+        String url = null;
+        String user = null;
+        String password = null;
+        if (LOCAL_CONNECTION == CONNECTION) {
+            url = getDataBookstore("url");
+            user = getDataBookstore("user");
+            password = getDataBookstore("password");
+        } else if (REMOTE_CONNECTION == CONNECTION) {
+            url = getDataBookstore("url_Elephant");
+            user = getDataBookstore("user_Elephant");
+            password = getDataBookstore("password_Elephant");
+        }
         if (connection == null) {
             try {
                 connection = DriverManager.getConnection(url, user, password);
