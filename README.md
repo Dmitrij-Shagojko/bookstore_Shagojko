@@ -54,8 +54,9 @@ Class **BookService** - this class service for connection UI with DAO.
 This class has the same methods as the class BookController and has its 
 own implemented method - getCostBookByAuthor.
 
-Class **DataSource** рфы a connection to the '_bookstore_bh.properties_' 
-file, which stores data for connection  to the **bookstore_bh** database.
+Class **DataSource** has a connection to the '_bookstore_bh.properties_' 
+file, which stores data for connection  to the **bookstore_bh** database 
+on local server and  stores data for connection to the Db on remote server.
 
 Class **Main** - is used to run a console application.
 
