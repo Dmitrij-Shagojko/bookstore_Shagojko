@@ -41,7 +41,7 @@ public class UserDAOImpl implements UserDAO{
         } catch (SQLException e){
             e.printStackTrace();
         }
-        return null;
+        return users;
     }
 
     @Override
