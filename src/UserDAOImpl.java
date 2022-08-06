@@ -1,23 +1,27 @@
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class UserDAOImpl implements UserDAO{
+public class UserDAOImpl implements UserDAO {
     public static final String GET_ALL_USER = """
             SELECT u.id, u.first_name, u.last_name, u.email, r.role AS role
             FROM users u
             JOIN roles r
             ON u.role_id = r.id
             ORDER BY u.id""";
+    public static final String GET_USER_BY_ID = """
+            SELECT u.id, u.first_name, u.last_name, u.email, r.role AS role
+            FROM users u
+            JOIN roles r
+            ON u.role_id = r.id
+            WHERE u.b = ?""";
 
     private DataSource dataSource;
 
     public UserDAOImpl(DataSource dataSource) {
         this.dataSource = dataSource;
     }
+
     private User setUser(ResultSet resultSet) throws SQLException {
         User user = new User();
         user.setId(resultSet.getLong("id"));
@@ -32,13 +36,13 @@ public class UserDAOImpl implements UserDAO{
     public List<User> getAll() {
         Connection connection = dataSource.getConnection();
         List<User> users = new ArrayList<>();
-        try(Statement statement = connection.createStatement()){
+        try (Statement statement = connection.createStatement()) {
             ResultSet resultSet = statement.executeQuery(GET_ALL_USER);
-            while (resultSet.next()){
+            while (resultSet.next()) {
                 User user = setUser(resultSet);
                 users.add(user);
             }
-        } catch (SQLException e){
+        } catch (SQLException e) {
             e.printStackTrace();
         }
         return users;
@@ -46,6 +50,16 @@ public class UserDAOImpl implements UserDAO{
 
     @Override
     public User getUserById(Long id) {
+        Connection connection = dataSource.getConnection();
+        try (PreparedStatement statement = connection.prepareStatement(GET_USER_BY_ID)) {
+            statement.setLong(1, id);
+            ResultSet resultSet = statement.executeQuery();
+            if (resultSet.next()) {
+                return setUser(resultSet);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
         return null;
     }
 
