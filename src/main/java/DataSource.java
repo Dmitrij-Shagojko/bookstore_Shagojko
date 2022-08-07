@@ -40,6 +40,7 @@ public class DataSource {
         if (connection == null) {
             try {
                 connection = DriverManager.getConnection(url, user, password);
+                LogUtil.logger.info(DataSource.class);
             } catch (SQLException e) {
                 throw new RuntimeException(e);
             }
