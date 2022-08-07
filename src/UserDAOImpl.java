@@ -17,13 +17,17 @@ public class UserDAOImpl implements UserDAO {
             WHERE u.b = ?""";
     public static final String CREATE_USER = """
             INSERT INTO users (first_name, last_name, email, role_id)
-            VALUES (?, ?, ?, (SELECT id FROM users WHERE role =?))""";
+            VALUES (?, ?, ?, (SELECT id FROM roles WHERE role =?))""";
     public static final String GET_USER_BY_EMAIL = """
             SELECT u.id, u.first_name, u.last_name, u.email, r.role AS role
             FROM users u
             JOIN roles r
             ON u.role_id = r.id
             WHERE u.email = ?""";
+    public static final String UPDATE_USER = """
+            UPDATE users u
+            SET u.first_name=?, u.last_name=?, u.email=?, u.role_id=(SELECT id FROM roles WHERE role=?)
+            WHERE u.id=?""";
 
     private DataSource dataSource;
 
@@ -91,6 +95,19 @@ public class UserDAOImpl implements UserDAO {
 
     @Override
     public User update(User user) {
+        Connection connection = dataSource.getConnection();
+        try (PreparedStatement statement = connection.prepareStatement(UPDATE_USER)){
+            statement.setLong(5, user.getId());
+            statement.setString(1, user.getFirstName());
+            statement.setString(2, user.getLastName());
+            statement.setString(3, user.getEmail());
+            statement.setString(4, String.valueOf(user.getRole()));
+            if (statement.executeUpdate() == 1){
+                return getUserById(user.getId());
+            }
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
         return null;
     }
 
