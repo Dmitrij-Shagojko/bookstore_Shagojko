@@ -31,6 +31,12 @@ public class UserDAOImpl implements UserDAO {
     public static final String DELETE_USER = """
             DELETE FROM users
             WHERE id = ?""";
+    public static final String GET_USER_BY_LASTNAME = """
+            SELECT u.id, u.first_name, u.last_name, u.email, r.role AS role
+            FROM users u
+            JOIN roles r
+            ON u.role_id = r.id
+            WHERE u.last_name = ?""";
 
     private DataSource dataSource;
 
@@ -90,7 +96,7 @@ public class UserDAOImpl implements UserDAO {
             if (statement.executeUpdate() == 1) {
                 return getUserByEmail(user.getEmail());
             }
-        } catch (SQLException e){
+        } catch (SQLException e) {
             e.printStackTrace();
         }
         return null;
@@ -99,16 +105,16 @@ public class UserDAOImpl implements UserDAO {
     @Override
     public User update(User user) {
         Connection connection = dataSource.getConnection();
-        try (PreparedStatement statement = connection.prepareStatement(UPDATE_USER)){
+        try (PreparedStatement statement = connection.prepareStatement(UPDATE_USER)) {
             statement.setLong(5, user.getId());
             statement.setString(1, user.getFirstName());
             statement.setString(2, user.getLastName());
             statement.setString(3, user.getEmail());
             statement.setString(4, String.valueOf(user.getRole()));
-            if (statement.executeUpdate() == 1){
+            if (statement.executeUpdate() == 1) {
                 return getUserById(user.getId());
             }
-        }catch (SQLException e){
+        } catch (SQLException e) {
             e.printStackTrace();
         }
         return null;
@@ -117,10 +123,10 @@ public class UserDAOImpl implements UserDAO {
     @Override
     public boolean delete(Long id) {
         Connection connection = dataSource.getConnection();
-        try (PreparedStatement statement = connection.prepareStatement(DELETE_USER)){
+        try (PreparedStatement statement = connection.prepareStatement(DELETE_USER)) {
             statement.setLong(1, id);
             return statement.executeUpdate() == 1;
-        } catch (SQLException e){
+        } catch (SQLException e) {
             e.printStackTrace();
         }
         return false;
@@ -129,13 +135,13 @@ public class UserDAOImpl implements UserDAO {
     @Override
     public User getUserByEmail(String email) {
         Connection connection = dataSource.getConnection();
-        try (PreparedStatement statement = connection.prepareStatement(GET_USER_BY_EMAIL)){
+        try (PreparedStatement statement = connection.prepareStatement(GET_USER_BY_EMAIL)) {
             statement.setString(1, email);
             ResultSet resultSet = statement.executeQuery();
-            if (resultSet.next()){
+            if (resultSet.next()) {
                 return setUser(resultSet);
             }
-        }catch (SQLException e){
+        } catch (SQLException e) {
             e.printStackTrace();
         }
         return null;
@@ -143,6 +149,19 @@ public class UserDAOImpl implements UserDAO {
 
     @Override
     public List<User> getUserByLastName(String lastName) {
+        Connection connection = dataSource.getConnection();
+        try (PreparedStatement statement = connection.prepareStatement(GET_USER_BY_LASTNAME)) {
+            statement.setString(1, lastName);
+            ResultSet resultSet = statement.executeQuery();
+            List<User> users = new ArrayList<>();
+            while (resultSet.next()) {
+                User user = setUser(resultSet);
+                users.add(user);
+            }
+            return users;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
         return null;
     }
 
