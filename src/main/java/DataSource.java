@@ -16,7 +16,7 @@ public class DataSource {
 
     private String getDataBookstore(String key) {
         Properties properties = new Properties();
-        try (InputStream input = Files.newInputStream(Paths.get("bookstore_bh.properties"))) {
+        try (InputStream input = Files.newInputStream(Paths.get("src/main/resources/bookstore_bh.properties"))) {
             properties.load(input);
         } catch (IOException e) {
             throw new RuntimeException(e);
