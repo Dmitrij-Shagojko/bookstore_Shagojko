@@ -28,6 +28,9 @@ public class UserDAOImpl implements UserDAO {
             UPDATE users u
             SET u.first_name=?, u.last_name=?, u.email=?, u.role_id=(SELECT id FROM roles WHERE role=?)
             WHERE u.id=?""";
+    public static final String DELETE_USER = """
+            DELETE FROM users
+            WHERE id = ?""";
 
     private DataSource dataSource;
 
@@ -113,6 +116,13 @@ public class UserDAOImpl implements UserDAO {
 
     @Override
     public boolean delete(Long id) {
+        Connection connection = dataSource.getConnection();
+        try (PreparedStatement statement = connection.prepareStatement(DELETE_USER)){
+            statement.setLong(1, id);
+            return statement.executeUpdate() == 1;
+        } catch (SQLException e){
+            e.printStackTrace();
+        }
         return false;
     }
 
