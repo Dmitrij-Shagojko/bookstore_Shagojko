@@ -14,7 +14,7 @@ public class UserDAOImpl implements UserDAO {
             FROM users u
             JOIN roles r
             ON u.role_id = r.id
-            WHERE u.b = ?""";
+            WHERE u.id = ?""";
     public static final String CREATE_USER = """
             INSERT INTO users (first_name, last_name, email, role_id)
             VALUES (?, ?, ?, (SELECT id FROM roles WHERE role =?))""";
@@ -25,9 +25,9 @@ public class UserDAOImpl implements UserDAO {
             ON u.role_id = r.id
             WHERE u.email = ?""";
     public static final String UPDATE_USER = """
-            UPDATE users u
-            SET u.first_name=?, u.last_name=?, u.email=?, u.role_id=(SELECT id FROM roles WHERE role=?)
-            WHERE u.id=?""";
+            UPDATE users
+            SET first_name=?, last_name=?, email=?, role_id=(SELECT id FROM roles WHERE role=?)
+            WHERE id=?""";
     public static final String DELETE_USER = """
             DELETE FROM users
             WHERE id = ?""";
