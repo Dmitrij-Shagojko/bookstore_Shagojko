@@ -8,34 +8,64 @@ public class UserService {
     }
 
     public List<User> getAll() {
-        return null;
+        List<User> users = userDAO.getAll();
+        if (users.isEmpty()) {
+            throw new RuntimeException("List of users is empty");
+        }
+        return users;
     }
 
     public User getUserById(Long id) {
-        return null;
+        User user = userDAO.getUserById(id);
+        if (user == null) {
+            throw new RuntimeException("User with id = " + id + " - not found");
+        }
+        return user;
     }
 
     public User create(User user) {
-        return null;
+        User newUser = userDAO.create(user);
+        if (newUser == null) {
+            throw new RuntimeException("Failed to create new user!");
+        }
+        return newUser;
     }
 
     public User update(User user) {
-        return null;
+        User upUser = userDAO.update(user);
+        if (upUser == null) {
+            throw new RuntimeException("User " + user.getId() + " is not update!");
+        }
+        return upUser;
     }
 
     public void delete(Long id) {
-
+        if (!userDAO.delete(id)) {
+            throw new RuntimeException("Couldn't delete user (id = " + id + ");");
+        }
     }
 
     public User getUserByEmail(String email) {
-        return null;
+        User user = userDAO.getUserByEmail(email);
+        if (user == null) {
+            throw new RuntimeException("User with email: " + email + " - not founded");
+        }
+        return user;
     }
 
     public List<User> getUserByLastName(String lastName) {
-        return null;
+        List<User> users = userDAO.getUserByLastName(lastName);
+        if (users.isEmpty()) {
+            throw new RuntimeException("List of users is empty");
+        }
+        return users;
     }
 
     public int countAllUsers() {
-        return 0;
+        int count = userDAO.countAllUsers();
+        if (count == 0) {
+            throw new RuntimeException("List of users is empty!");
+        }
+        return count;
     }
 }
