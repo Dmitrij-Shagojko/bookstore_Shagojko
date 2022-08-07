@@ -37,6 +37,9 @@ public class UserDAOImpl implements UserDAO {
             JOIN roles r
             ON u.role_id = r.id
             WHERE u.last_name = ?""";
+    public static final String COUNT_ALL_USERS = """
+            SELECT count(*) AS rows 
+            FROM users""";
 
     private DataSource dataSource;
 
@@ -167,6 +170,15 @@ public class UserDAOImpl implements UserDAO {
 
     @Override
     public int countAllUsers() {
-        return 0;
+        Connection connection = dataSource.getConnection();
+        try (Statement statement = connection.createStatement()) {
+            ResultSet resultSet = statement.executeQuery(COUNT_ALL_USERS);
+            if (resultSet.next()) {
+                return resultSet.getInt("rows");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        throw new RuntimeException("Table users is empty?");
     }
 }
