@@ -12,7 +12,11 @@ public class BookService {
         LogUtil.logger.debug(BookService.class + " - use method getAll");
         List<Book> books = bookDAO.getAll();
         if (books.isEmpty()) {
-            throw new RuntimeException("List of books is empty");
+            try {
+                throw new RuntimeException("List of books is empty");
+            } catch (RuntimeException e) {
+                LogUtil.logger.error(e);
+            }
         }
         return books;
     }
@@ -21,7 +25,11 @@ public class BookService {
         LogUtil.logger.debug(BookService.class + " - use method getBookById");
         Book bookById = bookDAO.getBookById(id);
         if (bookById == null) {
-            throw new RuntimeException("Book with id: " + id + " - not found");
+            try {
+                throw new RuntimeException("Book with id: " + id + " - not found");
+            } catch (RuntimeException e) {
+                LogUtil.logger.error(e);
+            }
         }
         return bookById;
     }
@@ -29,7 +37,11 @@ public class BookService {
     public void delete(Long id) {
         LogUtil.logger.debug(BookService.class + " - use method delete");
         if (!bookDAO.delete(id)) {
-            throw new RuntimeException("Couldn't delete book (id = " + id + ");");
+            try {
+                throw new RuntimeException("Couldn't delete book (id = " + id + ");");
+            } catch (RuntimeException e) {
+                LogUtil.logger.error(e);
+            }
         }
     }
 
@@ -37,7 +49,11 @@ public class BookService {
         LogUtil.logger.debug(BookService.class + " - use method countAllBooks");
         Long count = Long.parseLong(String.valueOf(bookDAO.countAllBooks()));
         if (count == 0) {
-            throw new RuntimeException("List of books is empty");
+            try {
+                throw new RuntimeException("List of books is empty");
+            } catch (RuntimeException e) {
+                LogUtil.logger.error(e);
+            }
         }
         return count;
     }
@@ -45,11 +61,19 @@ public class BookService {
     public Book create(Book book) {
         LogUtil.logger.debug(BookService.class + " - use method create");
         if (book.getPrice().compareTo(BigDecimal.ZERO) <= 0) {
-            throw new RuntimeException("Price couldn't be < 0");
+            try {
+                throw new RuntimeException("Price couldn't be < 0");
+            } catch (RuntimeException e) {
+                LogUtil.logger.error(e);
+            }
         }
         Book newBook = bookDAO.create(book);
         if (newBook == null) {
-            throw new RuntimeException("Book:" + book.getName() + "- not created");
+            try {
+                throw new RuntimeException("Book:" + book.getName() + "- not created");
+            } catch (RuntimeException e) {
+                LogUtil.logger.error(e);
+            }
         }
         return newBook;
 
@@ -62,7 +86,11 @@ public class BookService {
         }
         Book upBook = bookDAO.update(book);
         if (upBook == null) {
-            throw new RuntimeException("Book:" + book.getName() + "- not updated");
+            try {
+                throw new RuntimeException("Book:" + book.getName() + "- not updated");
+            } catch (RuntimeException e) {
+                LogUtil.logger.error(e);
+            }
         }
         return upBook;
     }
@@ -71,7 +99,11 @@ public class BookService {
         LogUtil.logger.debug(BookService.class + " - use method getBookByAuthor");
         List<Book> booksByAuthor = bookDAO.getBooksByAuthor(author);
         if (booksByAuthor.isEmpty()) {
-            throw new RuntimeException("List of books is empty");
+            try {
+                throw new RuntimeException("List of books is empty");
+            } catch (RuntimeException e) {
+                LogUtil.logger.error(e);
+            }
         }
         return booksByAuthor;
     }
@@ -80,7 +112,11 @@ public class BookService {
         LogUtil.logger.debug(BookService.class + " - use method getBookByIsbn");
         Book bookByIsbn = bookDAO.getBookByIsbn(isbn);
         if (bookByIsbn == null) {
-            throw new RuntimeException("Book with ISBN:" + isbn + "- not founded");
+            try {
+                throw new RuntimeException("Book with ISBN:" + isbn + "- not founded");
+            } catch (RuntimeException e) {
+                LogUtil.logger.error(e);
+            }
         }
         return bookByIsbn;
     }

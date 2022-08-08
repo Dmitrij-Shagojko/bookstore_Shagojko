@@ -72,7 +72,7 @@ public class BookDAOImpl implements BookDAO {
                 books.add(book);
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            LogUtil.logger.error(e);
         }
         return books;
     }
@@ -87,7 +87,7 @@ public class BookDAOImpl implements BookDAO {
                 return setBook(resultSet);
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            LogUtil.logger.error(e);
         }
         return null;
     }
@@ -127,7 +127,7 @@ public class BookDAOImpl implements BookDAO {
                 return setBook(resultSet);
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            LogUtil.logger.error(e);
         }
         return null;
     }
@@ -154,7 +154,7 @@ public class BookDAOImpl implements BookDAO {
                 return getBookByIsbn(book.getISBN10());
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            LogUtil.logger.error(e);
         }
         return null;
     }
@@ -181,7 +181,7 @@ public class BookDAOImpl implements BookDAO {
                 return getBookById(book.getId());
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            LogUtil.logger.error(e);
         }
         return null;
     }
@@ -193,7 +193,7 @@ public class BookDAOImpl implements BookDAO {
             statement.setLong(1, id);
             return statement.executeUpdate() == 1;
         } catch (SQLException e) {
-            e.printStackTrace();
+            LogUtil.logger.error(e);
         }
         return false;
     }
@@ -211,7 +211,7 @@ public class BookDAOImpl implements BookDAO {
             }
             return books;
         } catch (SQLException e) {
-            e.printStackTrace();
+            LogUtil.logger.error(e);
         }
         return null;
     }
@@ -226,7 +226,7 @@ public class BookDAOImpl implements BookDAO {
                 count = resultSet.getRow();
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            LogUtil.logger.error(e);
         }
         return count;
     }

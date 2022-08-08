@@ -19,7 +19,7 @@ public class DataSource {
         try (InputStream input = Files.newInputStream(Paths.get("src/main/resources/bookstore_bh.properties"))) {
             properties.load(input);
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            LogUtil.logger.error(e);
         }
         return properties.getProperty(key);
     }
@@ -42,15 +42,19 @@ public class DataSource {
                 connection = DriverManager.getConnection(url, user, password);
                 LogUtil.logger.info(DataSource.class);
             } catch (SQLException e) {
-                throw new RuntimeException(e);
+                LogUtil.logger.error(e);
             }
         }
         return connection;
     }
 
-    public void close() throws SQLException {
-        if (connection != null) {
-            connection.close();
+    public void close() {
+        try {
+            if (connection != null) {
+                connection.close();
+            }
+        } catch (SQLException e) {
+            LogUtil.logger.error(e);
         }
     }
 }

@@ -11,7 +11,11 @@ public class UserService {
         LogUtil.logger.debug(UserService.class + " - use method getAll");
         List<User> users = userDAO.getAll();
         if (users.isEmpty()) {
-            throw new RuntimeException("List of users is empty");
+            try {
+                throw new RuntimeException("List of users is empty");
+            } catch (RuntimeException e) {
+                LogUtil.logger.error(e);
+            }
         }
         return users;
     }
@@ -20,7 +24,11 @@ public class UserService {
         LogUtil.logger.debug(UserService.class + " - use method getUserById");
         User user = userDAO.getUserById(id);
         if (user == null) {
-            throw new RuntimeException("User with id = " + id + " - not found");
+            try {
+                throw new RuntimeException("User with id = " + id + " - not found");
+            } catch (RuntimeException e) {
+                LogUtil.logger.error(e);
+            }
         }
         return user;
     }
@@ -29,7 +37,11 @@ public class UserService {
         LogUtil.logger.debug(UserService.class + " - use method create");
         User newUser = userDAO.create(user);
         if (newUser == null) {
-            throw new RuntimeException("Failed to create new user!");
+            try {
+                throw new RuntimeException("Failed to create new user!");
+            } catch (RuntimeException e) {
+                LogUtil.logger.error(e);
+            }
         }
         return newUser;
     }
@@ -38,7 +50,11 @@ public class UserService {
         LogUtil.logger.debug(UserService.class + " - use method update");
         User upUser = userDAO.update(user);
         if (upUser == null) {
-            throw new RuntimeException("User " + user.getId() + " is not update!");
+            try {
+                throw new RuntimeException("User " + user.getId() + " is not update!");
+            } catch (RuntimeException e) {
+                LogUtil.logger.error(e);
+            }
         }
         return upUser;
     }
@@ -46,7 +62,11 @@ public class UserService {
     public void delete(Long id) {
         LogUtil.logger.debug(UserService.class + " - use method delete");
         if (!userDAO.delete(id)) {
-            throw new RuntimeException("Couldn't delete user (id = " + id + ");");
+            try {
+                throw new RuntimeException("Couldn't delete user (id = " + id + ");");
+            } catch (RuntimeException e) {
+                LogUtil.logger.error(e);
+            }
         }
     }
 
@@ -54,7 +74,11 @@ public class UserService {
         LogUtil.logger.debug(UserService.class + " - use method getUserByEmail");
         User user = userDAO.getUserByEmail(email);
         if (user == null) {
-            throw new RuntimeException("User with email: " + email + " - not founded");
+            try {
+                throw new RuntimeException("User with email: " + email + " - not founded");
+            } catch (RuntimeException e) {
+                LogUtil.logger.error(e);
+            }
         }
         return user;
     }
@@ -63,7 +87,11 @@ public class UserService {
         LogUtil.logger.debug(UserService.class + " - use method getUserByLastName");
         List<User> users = userDAO.getUserByLastName(lastName);
         if (users.isEmpty()) {
-            throw new RuntimeException("List of users is empty");
+            try {
+                throw new RuntimeException("List of users is empty");
+            } catch (RuntimeException e) {
+                LogUtil.logger.error(e);
+            }
         }
         return users;
     }
@@ -72,7 +100,11 @@ public class UserService {
         LogUtil.logger.debug(UserService.class + " - use method countAllUsers");
         int count = userDAO.countAllUsers();
         if (count == 0) {
-            throw new RuntimeException("List of users is empty!");
+            try {
+                throw new RuntimeException("List of users is empty!");
+            } catch (RuntimeException e) {
+                LogUtil.logger.error(e);
+            }
         }
         return count;
     }

@@ -68,7 +68,7 @@ public class UserDAOImpl implements UserDAO {
                 users.add(user);
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            LogUtil.logger.error(e);
         }
         return users;
     }
@@ -83,7 +83,7 @@ public class UserDAOImpl implements UserDAO {
                 return setUser(resultSet);
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            LogUtil.logger.error(e);
         }
         return null;
     }
@@ -100,7 +100,7 @@ public class UserDAOImpl implements UserDAO {
                 return getUserByEmail(user.getEmail());
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            LogUtil.logger.error(e);
         }
         return null;
     }
@@ -118,7 +118,7 @@ public class UserDAOImpl implements UserDAO {
                 return getUserById(user.getId());
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            LogUtil.logger.error(e);
         }
         return null;
     }
@@ -130,7 +130,7 @@ public class UserDAOImpl implements UserDAO {
             statement.setLong(1, id);
             return statement.executeUpdate() == 1;
         } catch (SQLException e) {
-            e.printStackTrace();
+            LogUtil.logger.error(e);
         }
         return false;
     }
@@ -145,7 +145,7 @@ public class UserDAOImpl implements UserDAO {
                 return setUser(resultSet);
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            LogUtil.logger.error(e);
         }
         return null;
     }
@@ -163,7 +163,7 @@ public class UserDAOImpl implements UserDAO {
             }
             return users;
         } catch (SQLException e) {
-            e.printStackTrace();
+            LogUtil.logger.error(e);
         }
         return null;
     }
@@ -177,7 +177,7 @@ public class UserDAOImpl implements UserDAO {
                 return resultSet.getInt("rows");
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            LogUtil.logger.error(e);
         }
         throw new RuntimeException("Table users is empty?");
     }
