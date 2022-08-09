@@ -86,6 +86,15 @@ with the application.
 
 Class **Main** - this class allows you to choose the DAO you want to work with.
 
+Framework connected to the project - **Log4j2**.
+
+Setting up logs:    
+* class _DataSource_ - level **info**;
+* classes _BookService_ and _UserService_ - level **debug**;
+* classes _BookDAOImpl_ and _UserServiceImpl_ - level **error**;
+
+
+
 =======================================================================
 
 __Developed by Dmitrij Shagojko__
