@@ -58,7 +58,42 @@ Class **DataSource** has a connection to the '_bookstore_bh.properties_'
 file, which stores data for connection  to the **bookstore_bh** database 
 on local server and  stores data for connection to the Db on remote server.
 
-Class **Main** - is used to run a console application.
+
+## **module3_user**
+
+Added new entity - **User**.
+
+Class **User** - this class is used to describe an object.
+Class has a standard set of methods: getters, setters, equals, hashCode
+and toString.
+
+Class **UserDAOImpl** - this class has implemented methods of the UserDAO
+interface:
+* ***getAll*** - output a list of all users;
+* ***getUserById*** - search a user by its id;
+* ***getUserByLastName*** - search a user by its last name;
+* ***create*** - creates a new record in DB;
+* ***update*** - updates a record in the DB;
+* ***delete*** - delete a record from DB;
+* ***getUserByEmail*** - search a user by its email;
+* ***countAllUsers*** - output quantity lines in the DB.
+
+Class **UserService** - this class service for connection UI with DAO.
+This class has the same methods as the class UserDAOImpl.
+
+Class **BookController** - this class controller for user interaction
+with the application.
+
+Class **Main** - this class allows you to choose the DAO you want to work with.
+
+Framework connected to the project - **Log4j2**.
+
+Setting up logs:    
+* class _DataSource_ - level **info**;
+* classes _BookService_ and _UserService_ - level **debug**;
+* classes _BookDAOImpl_ and _UserServiceImpl_ - level **error**;
+
+
 
 =======================================================================
 

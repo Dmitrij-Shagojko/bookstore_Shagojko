@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="error">
+    <Properties>
+        <projec.build.sourceEncoding>UTF-8</projec.build.sourceEncoding>
+        <property name="LOG_DIR">logs</property>
+        <property name="pattern_file">%d{yyyy-MM-dd HH:mm:ss} [%M] %-5level %logger{5} - %msg%n</property>
+        <property name="pattern_console">%d{HH:mm:ss} [%M] %-5level %logger{5} - %msg%n</property>
+    </Properties>
+
+    <Appenders>
+        <Console name="OutputConsole">
+            <PatternLayout pattern="${pattern_console}"/>
+        </Console>
+
+        <File name="OutputFile" fileName="${LOG_DIR}/text.log" bufferedIO="true">
+            <PatternLayout pattern="${pattern_file}"/>
+        </File>
+    </Appenders>
+
+    <Loggers>
+        <Logger name="com.company.dao.connection.DataSource" level="info" additivity="false">
+            <AppenderRef ref="OutputFile"/>
+        </Logger>
+        <Logger name="com.company.service.BookService" level="debug" additivity="false">
+            <AppenderRef ref="OutputConsole"/>
+        </Logger>
+        <Logger name="com.company.dao.impl.BookDAOImpl" level="error" additivity="false">
+            <AppenderRef ref="OutputConsole"/>
+        </Logger>
+        <Logger name="com.company.service.UserService" level="debug" additivity="false">
+            <AppenderRef ref="OutputConsole"/>
+        </Logger>
+        <Logger name="com.company.dao.impl.UserDAOImpl" level="error" additivity="false">
+            <AppenderRef ref="OutputConsole"/>
+        </Logger>
+    </Loggers>
+
+</Configuration>
