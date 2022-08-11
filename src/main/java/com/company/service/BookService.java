@@ -25,13 +25,13 @@ public class BookService {
     public Book getBookById(Long id) {
         log.debug("Use method getBookById. ID = {}", id);
         Book bookById = bookDAO.getBookById(id);
-        if (bookById == null) {
-            try {
-                throw new RuntimeException("Book with id: " + id + " - not found");
-            } catch (RuntimeException e) {
-                log.error(e.getMessage(), e);
-            }
-        }
+//        if (bookById == null) {
+//            try {
+//                throw new RuntimeException("Book with id: " + id + " - not found");
+//            } catch (RuntimeException e) {
+//                log.error(e.getMessage(), e);
+//            }
+//        }
         return bookById;
     }
 

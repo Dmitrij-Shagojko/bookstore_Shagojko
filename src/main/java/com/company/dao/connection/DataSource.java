@@ -16,10 +16,11 @@ public class DataSource {
     private static final Logger log = LogManager.getLogger(DataSource.class);
     private static final int LOCAL_CONNECTION = 1;
     private static final int REMOTE_CONNECTION = 2;
-    private static final int CONNECTION = 2;
+    private static final int CONNECTION = 1;
     private Connection connection;
 
     private String getDataBookstore(String key) {
+        log.info("Get data for connection");
         Properties properties = new Properties();
         try (InputStream input = Files.newInputStream(Paths.get("src/main/resources/bookstore_bh.properties"))) {
             properties.load(input);
@@ -30,6 +31,12 @@ public class DataSource {
     }
 
     public Connection getConnection() {
+        try {
+            Class.forName("org.postgresql.Driver");
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+        log.info("Get connection");
         String url = null;
         String user = null;
         String password = null;
