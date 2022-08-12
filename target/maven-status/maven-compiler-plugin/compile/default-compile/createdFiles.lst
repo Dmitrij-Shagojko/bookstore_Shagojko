@@ -5,7 +5,6 @@ com/company/entity/User$Role.class
 com/company/entity/User.class
 com/company/dao/connection/DataSource.class
 com/company/dao/UserDAO.class
-com/company/app/Main.class
 com/company/dao/impl/BookDAOImpl.class
 com/company/dao/BookDAO.class
 com/company/entity/Book$Language.class

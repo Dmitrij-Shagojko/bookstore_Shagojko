@@ -26,9 +26,21 @@ public class BookController extends HttpServlet {
         DataSource dataSource = new DataSource();
         BookDAOImpl bookDAO = new BookDAOImpl(dataSource);
         BookService bookService = new BookService(bookDAO);
-        BookService bookService1 = new BookService(new BookDAOImpl(new DataSource()));
         Book book = bookService.getBookById(idBook);
+        resp.setContentType("text/html");
         PrintWriter writer = resp.getWriter();
-        writer.write("The books is id =" + idBook + ";");
+        writer.write("<h1>The books is id =" + idBook + ": </h1>");
+        writer.write('\n');
+        writer.write("<b>Book name: </b>" + book.getName() + "<br>" +
+                "<b>Author: </b>" + book.getAuthor() + "<br>" +
+                "<b>Publisher: </b>" + book.getPublisher() + "<br>" +
+                "<b>Date of publisment: </b>" + book.getPublishmentDate() + "<br>" +
+                "<b>ISBN-10: </b>" + book.getISBN10() + "<br>" +
+                "<b>ISBN-13: </b>" + book.getISBN13() + "<br>" +
+                "<b>Lexile measure</b>: " + book.getLexileMeasure() + "<br>" +
+                "<b>Paperback: </b>" + book.getPaperback() + "<br>" +
+                "<b>Dimensions: </b>" + book.getDimensions() + "<br>" +
+                "<b>Price: </b>" + book.getPrice() + "<br>");
+        dataSource.close();
     }
 }

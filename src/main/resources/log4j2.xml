@@ -17,7 +17,7 @@
     </Appenders>
 
     <Loggers>
-        <Logger name="com.company.dao.connection.DataSource" level="info" additivity="false">
+        <Logger name="com.company.dao.connection.DataSource" level="info" additivity="true">
             <AppenderRef ref="OutputFile"/>
         </Logger>
         <Logger name="com.company.service.BookService" level="debug" additivity="false">
