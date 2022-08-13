@@ -1,3 +1,4 @@
+com/company/controller/UsersController.class
 com/company/controller/BookController.class
 com/company/dao/impl/UserDAOImpl.class
 com/company/controller/UserController.class

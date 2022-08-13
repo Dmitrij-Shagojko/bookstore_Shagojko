@@ -39,5 +39,6 @@ public class BooksController extends HttpServlet {
                     "<th>" + books.get(i).getPrice() + "</th></tr>");
         }
         writer.write("</table>");
+        dataSource.close();
     }
 }
