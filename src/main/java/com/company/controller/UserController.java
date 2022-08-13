@@ -22,14 +22,18 @@ public class UserController extends HttpServlet {
         DataSource dataSource = new DataSource();
         UserDAO userDAO = new UserDAOImpl(dataSource);
         User user = userDAO.getUserById(idUser);
-        resp.setContentType("text/html");
         PrintWriter writer = resp.getWriter();
-        writer.write("<h1>The user with id =" + idUser + ": </h1>");
-        writer.write('\n');
-        writer.write("<b>User name: </b>" + user.getFirstName() + "<br>" +
-                "<b>User last name: </b>" + user.getLastName() + "<br>" +
-                "<b>email: </b>" + user.getEmail() + "<br>" +
-                "<b>user role: </b>" + user.getRole() + "<br>");
+        if (user != null) {
+            resp.setContentType("text/html");
+            writer.write("<h1>The user with id =" + idUser + ": </h1>");
+            writer.write('\n');
+            writer.write("<b>User name: </b>" + user.getFirstName() + "<br>" +
+                    "<b>User last name: </b>" + user.getLastName() + "<br>" +
+                    "<b>email: </b>" + user.getEmail() + "<br>" +
+                    "<b>user role: </b>" + user.getRole() + "<br>");
+        } else {
+            resp.sendError(404, "User with id = " + idUser + " - not found");
+        }
         dataSource.close();
     }
 }
