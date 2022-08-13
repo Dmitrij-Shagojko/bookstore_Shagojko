@@ -11,3 +11,4 @@ com/company/entity/Book$Language.class
 com/company/service/UserService.class
 com/company/service/BookService.class
 com/company/entity/Book.class
+com/company/controller/BooksController.class
