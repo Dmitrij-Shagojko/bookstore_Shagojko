@@ -1,28 +1,27 @@
 package com.company.controller;
 
-import com.company.dao.UserDAO;
-import com.company.dao.connection.DataSource;
-import com.company.dao.impl.UserDAOImpl;
 import com.company.entity.User;
-import jakarta.servlet.ServletException;
-import jakarta.servlet.annotation.WebServlet;
-import jakarta.servlet.http.HttpServlet;
+import com.company.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
 import java.io.PrintWriter;
 
-@WebServlet("/user")
-public class UserController extends HttpServlet {
+public class UserCommand implements Command {
+    private final UserService userService;
+
+    public UserCommand(UserService userService) {
+        this.userService = userService;
+    }
+
     @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    public void execute(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         String rawId = req.getParameter("id");
         Long idUser = Long.parseLong(rawId);
-        UserDAO userDAO = new UserDAOImpl(DataSource.INSTANCE);
-        User user = userDAO.getUserById(idUser);
+        User user = userService.getUserById(idUser);
         PrintWriter writer = resp.getWriter();
-        if (user != null) {
+        if (user.getId() != null) {
             resp.setContentType("text/html");
             writer.write("<h1>The user with id =" + idUser + ": </h1>");
             writer.write('\n');
@@ -33,6 +32,5 @@ public class UserController extends HttpServlet {
         } else {
             resp.sendError(404, "User with id = " + idUser + " - not found");
         }
-        DataSource.INSTANCE.close();
     }
 }

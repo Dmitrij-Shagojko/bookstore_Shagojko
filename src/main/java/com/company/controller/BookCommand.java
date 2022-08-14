@@ -1,27 +1,24 @@
 package com.company.controller;
 
-import com.company.dao.BookDAO;
-import com.company.dao.connection.DataSource;
-import com.company.dao.impl.BookDAOImpl;
 import com.company.entity.Book;
 import com.company.service.BookService;
-import jakarta.servlet.ServletException;
-import jakarta.servlet.annotation.WebServlet;
-import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
 import java.io.PrintWriter;
 
-@WebServlet("/book")
-public class BookController extends HttpServlet{
+public class BookCommand implements Command {
+    private final BookService bookService;
 
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    public BookCommand(BookService bookService) {
+        this.bookService = bookService;
+    }
+
+    @Override
+    public void execute(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         String rawId = req.getParameter("id");
         Long idBook = Long.parseLong(rawId);
-        BookDAO bookDAO = new BookDAOImpl(DataSource.INSTANCE);
-        BookService bookService = new BookService(bookDAO);
         Book book = bookService.getBookById(idBook);
         PrintWriter writer = resp.getWriter();
         if (book.getId() != null) {
@@ -41,6 +38,5 @@ public class BookController extends HttpServlet{
         } else {
             resp.sendError(404, "Book with id = " + idBook + " not found.");
         }
-        DataSource.INSTANCE.close();
     }
 }
