@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Configuration status="error">
     <Properties>
-        <projec.build.sourceEncoding>UTF-8</projec.build.sourceEncoding>
         <property name="LOG_DIR">logs</property>
         <property name="pattern_file">%d{yyyy-MM-dd HH:mm:ss} [%M] %-5level %logger{5} - %msg%n</property>
         <property name="pattern_console">%d{HH:mm:ss} [%M] %-5level %logger{5} - %msg%n</property>
@@ -18,7 +17,7 @@
     </Appenders>
 
     <Loggers>
-        <Logger name="com.company.dao.connection.DataSource" level="info" additivity="false">
+        <Logger name="com.company.dao.connection.DataSource" level="info" additivity="true">
             <AppenderRef ref="OutputFile"/>
         </Logger>
         <Logger name="com.company.service.BookService" level="debug" additivity="false">
