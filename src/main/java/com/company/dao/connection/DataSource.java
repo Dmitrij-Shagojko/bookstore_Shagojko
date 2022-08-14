@@ -14,6 +14,9 @@ import java.util.Properties;
 public class DataSource {
     public static final DataSource INSTANCE = new DataSource();
 
+    private DataSource(){
+    }
+
     private static final Logger log = LogManager.getLogger(DataSource.class);
     private static final int LOCAL_CONNECTION = 1;
     private static final int REMOTE_CONNECTION = 2;
