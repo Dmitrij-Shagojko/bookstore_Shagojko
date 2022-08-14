@@ -16,7 +16,8 @@ public class Controller extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String commandParam = req.getParameter("command");
         Command command = CommandFactory.INSTANCE.getCommand(commandParam);
-        command.execute(req, resp);
+        String page = command.execute(req);
+        req.getRequestDispatcher(page).forward(req, resp);
     }
 
     @Override

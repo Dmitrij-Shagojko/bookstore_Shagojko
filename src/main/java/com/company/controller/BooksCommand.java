@@ -17,23 +17,9 @@ public class BooksCommand implements Command {
     }
 
     @Override
-    public void execute(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+    public String execute(HttpServletRequest req) {
         List<Book> books = bookService.getAll();
-        resp.setContentType("text/html");
-        PrintWriter writer = resp.getWriter();
-        writer.write("<h1> All list of books</h1>");
-        writer.write("<table border=\"1\"");
-        writer.write("<tr><th> Book name </th>" +
-                "<th> Author </th>" + "<th> Language </th>" + "<th> Price, $ </th></tr>");
-        for (Book book : books) {
-            writer.write("<tr><td>" +
-                    "<a href=\"http://localhost:8080/bookstore/controller?command=book&id=" +
-                    book.getId().toString() + "\" target=\"_blank\">" +
-                    book.getName() + "</a></td>" +
-                    "<td>" + book.getAuthor() + "</td>" +
-                    "<td>" + book.getLanguage() + "</td>" +
-                    "<th>" + book.getPrice() + "</th></tr>");
-        }
-        writer.write("</table>");
+        req.setAttribute("books", books);
+        return "books.jsp";
     }
 }

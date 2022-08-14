@@ -2,6 +2,7 @@ package com.company.controller;
 
 import com.company.entity.Book;
 import com.company.service.BookService;
+import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
@@ -16,27 +17,11 @@ public class BookCommand implements Command {
     }
 
     @Override
-    public void execute(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+    public String execute(HttpServletRequest req) {
         String rawId = req.getParameter("id");
         Long idBook = Long.parseLong(rawId);
         Book book = bookService.getBookById(idBook);
-        PrintWriter writer = resp.getWriter();
-        if (book.getId() != null) {
-            resp.setContentType("text/html");
-            writer.write("<h1>The books is id =" + idBook + ": </h1>");
-            writer.write('\n');
-            writer.write("<b>Book name: </b>" + book.getName() + "<br>" +
-                    "<b>Author: </b>" + book.getAuthor() + "<br>" +
-                    "<b>Publisher: </b>" + book.getPublisher() + "<br>" +
-                    "<b>Date of publisment: </b>" + book.getPublishmentDate() + "<br>" +
-                    "<b>ISBN-10: </b>" + book.getISBN10() + "<br>" +
-                    "<b>ISBN-13: </b>" + book.getISBN13() + "<br>" +
-                    "<b>Lexile measure</b>: " + book.getLexileMeasure() + "<br>" +
-                    "<b>Paperback: </b>" + book.getPaperback() + "<br>" +
-                    "<b>Dimensions: </b>" + book.getDimensions() + "<br>" +
-                    "<b>Price: </b>" + book.getPrice() + "<br>");
-        } else {
-            resp.sendError(404, "Book with id = " + idBook + " not found.");
-        }
+        req.setAttribute("book", book);
+        return "book.jsp";
     }
 }

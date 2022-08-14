@@ -16,21 +16,9 @@ public class UsersCommand implements Command {
         this.userService = userService;
     }
     @Override
-    public void execute(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+    public String execute(HttpServletRequest req){
         List<User> users = userService.getAll();
-        resp.setContentType("text/html");
-        PrintWriter writer = resp.getWriter();
-        writer.write("<h1> All list of users</h1>");
-        writer.write("<table border=\"1\"");
-        writer.write("<tr><th> Name </th><th>Last Name </th>" +
-                "<th> Email </th></tr>");
-        for (User user : users) {
-            writer.write("<tr><td>" + user.getFirstName() + "</td>" +
-                    "<td><a href=\"http://localhost:8080/bookstore/controller?command=user&id=" +
-                    user.getId().toString() + "\" target=\"_blank\">" +
-                    user.getLastName() + "</a></td>" +
-                    "<th>" + user.getEmail() + "</th></tr>");
-        }
-        writer.write("</table>");
+        req.setAttribute("users", users);
+        return "users.jsp";
     }
 }
