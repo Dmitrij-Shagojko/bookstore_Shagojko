@@ -19,8 +19,7 @@ public class UserController extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String rawId = req.getParameter("id");
         Long idUser = Long.parseLong(rawId);
-        DataSource dataSource = new DataSource();
-        UserDAO userDAO = new UserDAOImpl(dataSource);
+        UserDAO userDAO = new UserDAOImpl(DataSource.INSTANCE);
         User user = userDAO.getUserById(idUser);
         PrintWriter writer = resp.getWriter();
         if (user != null) {
@@ -34,6 +33,6 @@ public class UserController extends HttpServlet {
         } else {
             resp.sendError(404, "User with id = " + idUser + " - not found");
         }
-        dataSource.close();
+        DataSource.INSTANCE.close();
     }
 }

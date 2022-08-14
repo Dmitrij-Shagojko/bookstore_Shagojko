@@ -1,5 +1,6 @@
 package com.company.controller;
 
+import com.company.dao.BookDAO;
 import com.company.dao.connection.DataSource;
 import com.company.dao.impl.BookDAOImpl;
 import com.company.entity.Book;
@@ -14,13 +15,12 @@ import java.io.IOException;
 import java.io.PrintWriter;
 
 @WebServlet("/book")
-public class BookController extends HttpServlet {
-    @Override
+public class BookController extends HttpServlet{
+
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String rawId = req.getParameter("id");
         Long idBook = Long.parseLong(rawId);
-        DataSource dataSource = new DataSource();
-        BookDAOImpl bookDAO = new BookDAOImpl(dataSource);
+        BookDAO bookDAO = new BookDAOImpl(DataSource.INSTANCE);
         BookService bookService = new BookService(bookDAO);
         Book book = bookService.getBookById(idBook);
         PrintWriter writer = resp.getWriter();
@@ -41,6 +41,6 @@ public class BookController extends HttpServlet {
         } else {
             resp.sendError(404, "Book with id = " + idBook + " not found.");
         }
-        dataSource.close();
+        DataSource.INSTANCE.close();
     }
 }

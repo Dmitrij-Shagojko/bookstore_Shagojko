@@ -15,12 +15,9 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
 
-@WebServlet("/books")
-public class BooksController extends HttpServlet {
-    @Override
+public class BooksController {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        DataSource dataSource = new DataSource();
-        BookDAO bookDAO = new BookDAOImpl(dataSource);
+        BookDAO bookDAO = new BookDAOImpl(DataSource.INSTANCE);
         BookService bookService = new BookService(bookDAO);
         List<Book> books = bookService.getAll();
         resp.setContentType("text/html");
@@ -39,6 +36,6 @@ public class BooksController extends HttpServlet {
                     "<th>" + books.get(i).getPrice() + "</th></tr>");
         }
         writer.write("</table>");
-        dataSource.close();
+        DataSource.INSTANCE.close();
     }
 }

@@ -19,8 +19,7 @@ import java.util.List;
 public class UsersController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        DataSource dataSource = new DataSource();
-        UserDAO userDAO = new UserDAOImpl(dataSource);
+        UserDAO userDAO = new UserDAOImpl(DataSource.INSTANCE);
         UserService userService = new UserService(userDAO);
         List<User> users = userService.getAll();
         resp.setContentType("text/html");
@@ -37,6 +36,6 @@ public class UsersController extends HttpServlet {
                     "<th>" + users.get(i).getEmail() + "</th></tr>");
         }
         writer.write("</table>");
-        dataSource.close();
+        DataSource.INSTANCE.close();
     }
 }

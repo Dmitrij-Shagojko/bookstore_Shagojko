@@ -12,6 +12,7 @@ import java.util.HashMap;
 import java.util.Properties;
 
 public class DataSource {
+    public static final DataSource INSTANCE = new DataSource();
 
     private static final Logger log = LogManager.getLogger(DataSource.class);
     private static final int LOCAL_CONNECTION = 1;
