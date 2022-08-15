@@ -17,6 +17,13 @@ public class CreateUserCommand implements Command {
         String lastName = req.getParameter("lastName");
         String email = req.getParameter("email");
         String role = req.getParameter("role");
+        if (firstName.isEmpty() || lastName.isEmpty() || email.isEmpty() || role.isEmpty()){
+            int status = 400;
+            req.setAttribute("errorStatus", status);
+            String message = "Enter the requested data";
+            req.setAttribute("message", message);
+            return "error.jsp";
+        }
         User user = new User();
         user.setFirstName(firstName);
         user.setLastName(lastName);
