@@ -16,3 +16,4 @@ com/company/service/UserService.class
 com/company/service/BookService.class
 com/company/entity/Book.class
 com/company/controller/UsersCommand.class
+com/company/controller/CreateUserCommand.class

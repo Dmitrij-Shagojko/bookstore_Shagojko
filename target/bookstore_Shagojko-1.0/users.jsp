@@ -12,6 +12,7 @@
 </head>
 <body>
 <h1>Users</h1>
+<a href="createUserForm.jsp" target="_blank" class="btn btn-danger">Create new user</a>
 <table class="table table-striped table-hover">
     <tr>
         <th>##</th>

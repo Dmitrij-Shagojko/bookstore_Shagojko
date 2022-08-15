@@ -22,6 +22,7 @@ public class CommandFactory {
         commandMap.put("books", new BooksCommand(bookService));
         commandMap.put("user", new UserCommand(userService));
         commandMap.put("users", new UsersCommand(userService));
+        commandMap.put("createUser", new CreateUserCommand(userService));
     }
 
     public Command getCommand(String command) {
