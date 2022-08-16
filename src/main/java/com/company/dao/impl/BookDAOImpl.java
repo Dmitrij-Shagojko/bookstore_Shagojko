@@ -94,12 +94,12 @@ public class BookDAOImpl implements BookDAO {
             statement.setLong(1, id);
             ResultSet resultSet = statement.executeQuery();
             if (resultSet.next()) {
-                book = setBook(resultSet);
+                return setBook(resultSet);
             }
         } catch (SQLException e) {
             log.error(e.getMessage(), e);
         }
-        return book;
+        return null;
     }
 
     private static Book setBook(ResultSet resultSet) throws SQLException {

@@ -20,6 +20,13 @@ public class UserCommand implements Command {
         String rawId = req.getParameter("id");
         Long idUser = Long.parseLong(rawId);
         User user = userService.getUserById(idUser);
+        if (user == null){
+            int status = 404;
+            req.setAttribute("errorStatus", status);
+            String message = "The user with the entered ID does not exist";
+            req.setAttribute("message", message);
+            return "error.jsp";
+        }
         req.setAttribute("user", user);
         return "user.jsp";
     }
