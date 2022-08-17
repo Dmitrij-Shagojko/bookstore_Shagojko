@@ -1,5 +1,6 @@
 package com.company.dao.connection;
 
+import com.company.util.PropertiesManager;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -14,47 +15,27 @@ import java.util.Properties;
 public class DataSource {
     public static final DataSource INSTANCE = new DataSource();
 
-    private DataSource(){
+    private DataSource() {
     }
 
     private static final Logger log = LogManager.getLogger(DataSource.class);
-    private static final int LOCAL_CONNECTION = 1;
-    private static final int REMOTE_CONNECTION = 2;
-    private static final int CONNECTION = REMOTE_CONNECTION;
     private Connection connection;
-
-    private HashMap<String, String> getDataBookstore() {
-        Properties properties = new Properties();
-        HashMap<String, String> dataConnection = new HashMap<>();
-        try (InputStream input = getClass().getResourceAsStream("/bookstore_bh.properties")) {
-            properties.load(input);
-            dataConnection.put("url", properties.getProperty("url"));
-            dataConnection.put("user", properties.getProperty("user"));
-            dataConnection.put("password", properties.getProperty("password"));
-            dataConnection.put("url_Elephant", properties.getProperty("url_Elephant"));
-            dataConnection.put("user_Elephant", properties.getProperty("user_Elephant"));
-            dataConnection.put("password_Elephant", properties.getProperty("password_Elephant"));
-        } catch (IOException e) {
-            log.error(e);
-        }
-        return dataConnection;
-    }
 
     public Connection getConnection() {
         String url = null;
         String user = null;
         String password = null;
-        HashMap<String, String> dataConnection = getDataBookstore();
-        if (LOCAL_CONNECTION == CONNECTION) {
-            url = dataConnection.get("url");
+        String typeOfConnection = PropertiesManager.PROPERTIES.getProperty("connection");
+        if (typeOfConnection.equals("local")) {
+            url = PropertiesManager.PROPERTIES.getProperty("url");
             log.info("URL of database" + url);
-            user = dataConnection.get("user");
-            password = dataConnection.get("password");
-        } else if (REMOTE_CONNECTION == CONNECTION) {
-            url = dataConnection.get("url_Elephant");
+            user = PropertiesManager.PROPERTIES.getProperty("user");
+            password = PropertiesManager.PROPERTIES.getProperty("password");
+        } else if (typeOfConnection.equals("remote")) {
+            url = PropertiesManager.PROPERTIES.getProperty("url_Elephant");
             log.info("URL of database" + url);
-            user = dataConnection.get("user_Elephant");
-            password = dataConnection.get("password_Elephant");
+            user = PropertiesManager.PROPERTIES.getProperty("user_Elephant");
+            password = PropertiesManager.PROPERTIES.getProperty("password_Elephant");
         }
         if (connection == null) {
             try {
@@ -76,5 +57,6 @@ public class DataSource {
         } catch (SQLException e) {
             log.error(e);
         }
+        log.info("Connection - off");
     }
 }
