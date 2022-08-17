@@ -67,7 +67,7 @@ public class UserDAOImpl implements UserDAO {
     }
 
     @Override
-    public List<User> getAll() {
+    public List<User> findAll() {
         Connection connection = dataSource.getConnection();
         List<User> users = new ArrayList<>();
         try (Statement statement = connection.createStatement()) {
@@ -83,7 +83,7 @@ public class UserDAOImpl implements UserDAO {
     }
 
     @Override
-    public User getUserById(Long id) {
+    public User findById(Long id) {
         Connection connection = dataSource.getConnection();
         try (PreparedStatement statement = connection.prepareStatement(GET_USER_BY_ID)) {
             statement.setLong(1, id);
@@ -124,7 +124,7 @@ public class UserDAOImpl implements UserDAO {
             statement.setString(3, user.getEmail());
             statement.setString(4, String.valueOf(user.getRole()));
             if (statement.executeUpdate() == 1) {
-                return getUserById(user.getId());
+                return findById(user.getId());
             }
         } catch (SQLException e) {
             log.error(e.getMessage(), e);
@@ -177,7 +177,7 @@ public class UserDAOImpl implements UserDAO {
     }
 
     @Override
-    public int countAllUsers() {
+    public int countAll() {
         Connection connection = dataSource.getConnection();
         try (Statement statement = connection.createStatement()) {
             ResultSet resultSet = statement.executeQuery(COUNT_ALL_USERS);

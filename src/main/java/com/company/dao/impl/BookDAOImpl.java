@@ -71,7 +71,7 @@ public class BookDAOImpl implements BookDAO {
     }
 
     @Override
-    public List<Book> getAll() {
+    public List<Book> findAll() {
         List<Book> books = new ArrayList<>();
         Connection connection = dataSource.getConnection();
         try (Statement statement = connection.createStatement()) {
@@ -87,7 +87,7 @@ public class BookDAOImpl implements BookDAO {
     }
 
     @Override
-    public Book getBookById(Long id) {
+    public Book findById(Long id) {
         Connection connection = dataSource.getConnection();
         Book book = new Book();
         try (PreparedStatement statement = connection.prepareStatement(GET_BOOK_BY_ID)) {
@@ -189,7 +189,7 @@ public class BookDAOImpl implements BookDAO {
             statement.setString(12, book.getBestSellersRank());
             statement.setString(13, String.valueOf(book.getLanguage()));
             if (statement.executeUpdate() == 1) {
-                return getBookById(book.getId());
+                return findById(book.getId());
             }
         } catch (SQLException e) {
             log.error(e.getMessage(), e);
@@ -228,7 +228,7 @@ public class BookDAOImpl implements BookDAO {
     }
 
     @Override
-    public int countAllBooks() {
+    public int countAll() {
         Connection connection = dataSource.getConnection();
         int count = 0;
         try (Statement statement = connection.createStatement()) {

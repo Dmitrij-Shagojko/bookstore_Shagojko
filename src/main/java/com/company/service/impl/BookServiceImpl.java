@@ -20,14 +20,14 @@ public class BookServiceImpl implements BookService {
     @Override
     public List<Book> getAll() {
         log.debug("Use method getAll");
-        List<Book> books = bookDAO.getAll();
+        List<Book> books = bookDAO.findAll();
         return books;
     }
 
     @Override
     public Book getBookById(Long id) {
         log.debug("Use method getBookById. ID = {}", id);
-        Book bookById = bookDAO.getBookById(id);
+        Book bookById = bookDAO.findById(id);
         if (bookById == null) {
             try {
                 throw new RuntimeException("Book with id: " + id + " - not found");
@@ -47,7 +47,7 @@ public class BookServiceImpl implements BookService {
     @Override
     public Long countAllBooks() {
         log.debug("Use method countAllBooks");
-        Long count = Long.parseLong(String.valueOf(bookDAO.countAllBooks()));
+        Long count = Long.parseLong(String.valueOf(bookDAO.countAll()));
         if (count == 0) {
             try {
                 throw new RuntimeException("List of books is empty");

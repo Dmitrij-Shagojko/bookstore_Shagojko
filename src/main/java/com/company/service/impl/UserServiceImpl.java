@@ -19,14 +19,14 @@ public class UserServiceImpl implements UserService {
     @Override
     public List<User> getAll() {
         log.debug("Use method getAll");
-        List<User> users = userDAO.getAll();
+        List<User> users = userDAO.findAll();
         return users;
     }
 
     @Override
     public User getUserById(Long id) {
         log.debug("Use method getUserById. Where ID: {}", id);
-        User user = userDAO.getUserById(id);
+        User user = userDAO.findById(id);
         if (user == null) {
             try {
                 throw new RuntimeException("User with id = " + id + " - not found");
@@ -101,7 +101,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public int countAllUsers() {
         log.debug("Use method countAllUsers");
-        int count = userDAO.countAllUsers();
+        int count = userDAO.countAll();
         if (count == 0) {
             try {
                 throw new RuntimeException("List of users is empty!");
