@@ -1,6 +1,5 @@
 package com.company.util;
 
-import com.company.dao.connection.DataSource;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -15,7 +14,7 @@ public class PropertiesManager {
     private PropertiesManager() {
         this.props = new Properties();
         try {
-            props.load(getClass().getResourceAsStream("/bookstore_bh.properties"));
+            props.load(getClass().getResourceAsStream("/application.properties"));
         } catch (IOException e) {
             log.error(e);
         }
