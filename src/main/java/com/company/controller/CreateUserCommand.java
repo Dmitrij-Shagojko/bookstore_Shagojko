@@ -1,14 +1,14 @@
 package com.company.controller;
 
 import com.company.entity.User;
-import com.company.service.UserService;
+import com.company.service.impl.UserServiceImpl;
 import jakarta.servlet.http.HttpServletRequest;
 
 public class CreateUserCommand implements Command {
-    private final UserService userService;
+    private final UserServiceImpl userServiceImpl;
 
-    public CreateUserCommand(UserService userService) {
-        this.userService = userService;
+    public CreateUserCommand(UserServiceImpl userServiceImpl) {
+        this.userServiceImpl = userServiceImpl;
     }
 
     @Override
@@ -29,7 +29,7 @@ public class CreateUserCommand implements Command {
         user.setLastName(lastName);
         user.setEmail(email);
         user.setRole(User.Role.valueOf(role));
-        userService.create(user);
+        userServiceImpl.create(user);
         req.setAttribute("user", user);
         return "createUserDone.jsp";
     }

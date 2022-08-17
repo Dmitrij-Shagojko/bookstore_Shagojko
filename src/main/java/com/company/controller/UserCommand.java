@@ -1,25 +1,21 @@
 package com.company.controller;
 
 import com.company.entity.User;
-import com.company.service.UserService;
+import com.company.service.impl.UserServiceImpl;
 import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
-
-import java.io.IOException;
-import java.io.PrintWriter;
 
 public class UserCommand implements Command {
-    private final UserService userService;
+    private final UserServiceImpl userServiceImpl;
 
-    public UserCommand(UserService userService) {
-        this.userService = userService;
+    public UserCommand(UserServiceImpl userServiceImpl) {
+        this.userServiceImpl = userServiceImpl;
     }
 
     @Override
     public String execute(HttpServletRequest req){
         String rawId = req.getParameter("id");
         Long idUser = Long.parseLong(rawId);
-        User user = userService.getUserById(idUser);
+        User user = userServiceImpl.getUserById(idUser);
         if (user == null){
             int status = 404;
             req.setAttribute("errorStatus", status);

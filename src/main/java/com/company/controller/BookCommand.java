@@ -1,26 +1,21 @@
 package com.company.controller;
 
 import com.company.entity.Book;
-import com.company.service.BookService;
-import jakarta.servlet.ServletException;
+import com.company.service.impl.BookServiceImpl;
 import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
-
-import java.io.IOException;
-import java.io.PrintWriter;
 
 public class BookCommand implements Command {
-    private final BookService bookService;
+    private final BookServiceImpl bookServiceImpl;
 
-    public BookCommand(BookService bookService) {
-        this.bookService = bookService;
+    public BookCommand(BookServiceImpl bookServiceImpl) {
+        this.bookServiceImpl = bookServiceImpl;
     }
 
     @Override
     public String execute(HttpServletRequest req) {
         String rawId = req.getParameter("id");
         Long idBook = Long.parseLong(rawId);
-        Book book = bookService.getBookById(idBook);
+        Book book = bookServiceImpl.getBookById(idBook);
         if (book == null){
             int status = 404;
             req.setAttribute("errorStatus", status);
