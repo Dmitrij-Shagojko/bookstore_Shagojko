@@ -3,6 +3,8 @@ package com.company.controller;
 import com.company.dao.connection.DataSource;
 import com.company.dao.impl.BookDAOImpl;
 import com.company.dao.impl.UserDAOImpl;
+import com.company.service.BookService;
+import com.company.service.UserService;
 import com.company.service.impl.BookServiceImpl;
 import com.company.service.impl.UserServiceImpl;
 
@@ -16,13 +18,13 @@ public class CommandFactory {
 
     private CommandFactory() {
         commandMap = new HashMap<>();
-        BookServiceImpl bookServiceImpl = new BookServiceImpl(new BookDAOImpl(DataSource.INSTANCE));
-        UserServiceImpl userServiceImpl = new UserServiceImpl(new UserDAOImpl(DataSource.INSTANCE));
-        commandMap.put("book", new BookCommand(bookServiceImpl));
-        commandMap.put("books", new BooksCommand(bookServiceImpl));
-        commandMap.put("user", new UserCommand(userServiceImpl));
-        commandMap.put("users", new UsersCommand(userServiceImpl));
-        commandMap.put("createUser", new CreateUserCommand(userServiceImpl));
+        BookService bookService = new BookServiceImpl(new BookDAOImpl(DataSource.INSTANCE));
+        UserService userService = new UserServiceImpl(new UserDAOImpl(DataSource.INSTANCE));
+        commandMap.put("book", new BookCommand(bookService));
+        commandMap.put("books", new BooksCommand(bookService));
+        commandMap.put("user", new UserCommand(userService));
+        commandMap.put("users", new UsersCommand(userService));
+        commandMap.put("createUser", new CreateUserCommand(userService));
     }
 
     public Command getCommand(String command) {
