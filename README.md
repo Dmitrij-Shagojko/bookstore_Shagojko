@@ -94,6 +94,39 @@ Setting up logs:
 * classes _BookDAOImpl_ and _UserServiceImpl_ - level **error**;
 
 
+## **module4_servlet**
+
+Jakarta servlet connected to the project.
+
+Project assembly into a war archive and saving it to the directory with 
+the TOMCAT server is configured.
+
+Created servlet:
+* **BookController** - getting a book by id;
+* **BooksController** - getting a list of books;
+* **UserController** - getting a user by id;
+* **UsersController** - getting a list of user.
+
+The correct output of the requested information on the html page
+is configured.
+
+
+## **module5_jsp**
+
+Created **"front" Controller**.
+
+Created **commandFactory**.
+
+Corresponding **jsp** files have been created to display information 
+in the browser.
+
+Added the ability to create a user entity.
+
+Error handling configured:
+- entering a non-existent command;
+- calling a non-existent user;
+- calling a non-existent book;
+- creating a user with incorrect data.
 
 =======================================================================
 

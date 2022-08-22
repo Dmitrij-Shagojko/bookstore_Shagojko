@@ -20,13 +20,13 @@
         <Logger name="com.company.dao.connection.DataSource" level="info" additivity="true">
             <AppenderRef ref="OutputFile"/>
         </Logger>
-        <Logger name="com.company.service.BookService" level="debug" additivity="false">
+        <Logger name="com.company.service.impl.BookServiceImpl" level="debug" additivity="false">
             <AppenderRef ref="OutputConsole"/>
         </Logger>
         <Logger name="com.company.dao.impl.BookDAOImpl" level="error" additivity="false">
             <AppenderRef ref="OutputConsole"/>
         </Logger>
-        <Logger name="com.company.service.UserService" level="debug" additivity="false">
+        <Logger name="com.company.service.impl.UserServiceImpl" level="debug" additivity="false">
             <AppenderRef ref="OutputConsole"/>
         </Logger>
         <Logger name="com.company.dao.impl.UserDAOImpl" level="error" additivity="false">
