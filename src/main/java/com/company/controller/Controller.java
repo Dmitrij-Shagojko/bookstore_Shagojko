@@ -31,10 +31,8 @@ public class Controller extends HttpServlet {
         try {
             page = command.execute(req);
         } catch (NullPointerException e) {
-            int status = 400;
-            req.setAttribute("errorStatus", status);
-            String message = "Wrong command entered";
-            req.setAttribute("message", message);
+            req.setAttribute("errorStatus", HttpServletResponse.SC_BAD_REQUEST);
+            req.setAttribute("message", "Wrong command entered");
             page = "error.jsp";
         }
         req.getRequestDispatcher(page).forward(req, resp);

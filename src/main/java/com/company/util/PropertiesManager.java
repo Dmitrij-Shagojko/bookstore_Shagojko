@@ -8,7 +8,7 @@ import java.util.Properties;
 
 public class PropertiesManager {
     private static final Logger log = LogManager.getLogger(PropertiesManager.class);
-    public final static PropertiesManager PROPERTIES = new PropertiesManager();
+    public final static PropertiesManager INSTANCE = new PropertiesManager();
     private final Properties props;
 
     private PropertiesManager() {

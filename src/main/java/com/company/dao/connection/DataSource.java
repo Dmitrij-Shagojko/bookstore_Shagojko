@@ -22,21 +22,23 @@ public class DataSource {
     private Connection connection;
 
     public Connection getConnection() {
-        String url = null;
-        String user = null;
-        String password = null;
+        String urlKey;
+        String userKey;
+        String passwordKey;
         String typeOfConnection = PropertiesManager.PROPERTIES.getProperty("connection");
-        if (typeOfConnection.equals("local")) {
-            url = PropertiesManager.PROPERTIES.getProperty("url");
-            log.info("URL of database" + url);
-            user = PropertiesManager.PROPERTIES.getProperty("user");
-            password = PropertiesManager.PROPERTIES.getProperty("password");
-        } else if (typeOfConnection.equals("remote")) {
-            url = PropertiesManager.PROPERTIES.getProperty("url_Elephant");
-            log.info("URL of database" + url);
-            user = PropertiesManager.PROPERTIES.getProperty("user_Elephant");
-            password = PropertiesManager.PROPERTIES.getProperty("password_Elephant");
+        if (typeOfConnection.equals("remote")) {
+            urlKey = "db.remote.url";
+            userKey = "db.remote.user";
+            passwordKey = "db.remote.password";
+        } else{
+            urlKey = "db.local.url";
+            userKey = "db.local.user";
+            passwordKey = "db.local.password";
         }
+           String url = PropertiesManager.PROPERTIES.getProperty(urlKey);
+           log.info("URL of database" + url);
+           String user = PropertiesManager.PROPERTIES.getProperty(userKey);
+           String password = PropertiesManager.PROPERTIES.getProperty(passwordKey);
         if (connection == null) {
             try {
                 Class.forName("org.postgresql.Driver");
